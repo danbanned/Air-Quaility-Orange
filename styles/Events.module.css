@@ -1,0 +1,338 @@
+/* styles/Events.module.css */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.filters {
+  margin-bottom: 40px;
+}
+
+.monthFilter {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.monthFilter label {
+  font-weight: bold;
+  color: var(--aqo-gray-dark);
+}
+
+.select {
+  padding: 10px 20px;
+  border: 2px solid var(--aqo-cream);
+  border-radius: 5px;
+  font-size: 1rem;
+  min-width: 200px;
+  background: var(--aqo-white);
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--aqo-orange);
+}
+
+.categoryTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.categoryTag {
+  padding: 8px 16px;
+  border: 1px solid var(--aqo-orange);
+  background: var(--aqo-white);
+  color: var(--aqo-orange);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.categoryTag:hover {
+  background: var(--aqo-orange);
+  color: var(--aqo-white);
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.eventCard {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 30px;
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.eventCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.eventDate {
+  text-align: center;
+  min-width: 100px;
+  padding: 15px;
+  background: var(--aqo-orange);
+  color: var(--aqo-white);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.month {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.day {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+  margin: 5px 0;
+}
+
+.year {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.eventDetails {
+  flex: 1;
+}
+
+.eventDetails h3 {
+  color: var(--aqo-orange);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.eventTime,
+.eventLocation,
+.eventAddress {
+  color: var(--aqo-gray-dark);
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.eventDescription {
+  margin: 15px 0;
+  line-height: 1.6;
+  color: var(--aqo-black);
+}
+
+.eventOrganizer {
+  font-style: italic;
+  color: var(--aqo-gray-dark);
+  margin-bottom: 15px;
+}
+
+.eventMeta {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.spots {
+  background: var(--aqo-cream);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: var(--aqo-gray-dark);
+}
+
+.category {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.category.cleanup {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.category.education {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.category.workshop {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.category.health {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.category.youth {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.category.garden {
+  background: #e0f2f1;
+  color: #00695c;
+}
+
+.category.fundraiser {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.category.training {
+  background: #e0e0e0;
+  color: #424242;
+}
+
+.eventAction {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 120px;
+}
+
+.calendarSection {
+  text-align: center;
+  padding: 40px;
+  background: var(--aqo-cream);
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.calendarSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.calendarButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hostEvent {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.hostEvent h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.hostEvent p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  opacity: 0.95;
+}
+
+.newsletter {
+  text-align: center;
+  padding: 40px;
+  background: var(--aqo-white);
+  border-radius: 10px;
+  margin-bottom: 40px;
+  border: 2px solid var(--aqo-cream);
+}
+
+.newsletter h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.newsletter p {
+  color: var(--aqo-gray-dark);
+  margin-bottom: 20px;
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.newsletterForm input {
+  flex: 1;
+  padding: 15px;
+  border: 2px solid var(--aqo-cream);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.newsletterForm input:focus {
+  outline: none;
+  border-color: var(--aqo-orange);
+}
+
+.userContext {
+  background: var(--aqo-orange-light);
+  color: var(--aqo-white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+@media (max-width: 768px) {
+  .eventCard {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .eventDate {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .month, .day, .year {
+    display: inline-block;
+    margin: 0 5px;
+  }
+  
+  .eventAction {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .calendarButtons {
+    flex-direction: column;
+  }
+  
+  .newsletterForm {
+    flex-direction: column;
+  }
+  
+  .newsletterForm input,
+  .newsletterForm button {
+    width: 100%;
+  }
+}

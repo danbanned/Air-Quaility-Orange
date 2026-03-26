@@ -1,0 +1,223 @@
+/* components/HeatIsland/HeatIslandInfo.css */
+.heat-island-info {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.heat-overview {
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  padding: 40px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.heat-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.stat-value {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.heat-description {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.factors-section,
+.solutions-section {
+  margin-bottom: 50px;
+}
+
+.factors-section h3,
+.solutions-section h3,
+.impact-story h3,
+.heat-comparison h3 {
+  color: var(--aqo-orange);
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.factors-grid,
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.factor-card,
+.solution-card {
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.factor-card:hover,
+.solution-card:hover {
+  transform: translateY(-5px);
+}
+
+.factor-icon,
+.solution-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.factor-card h4,
+.solution-card h4 {
+  color: var(--aqo-orange-dark);
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.factor-card p,
+.solution-card p {
+  color: var(--aqo-gray-dark);
+  line-height: 1.6;
+}
+
+.progress-bar {
+  height: 10px;
+  background: var(--aqo-cream);
+  border-radius: 5px;
+  margin: 15px 0 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--aqo-green);
+  border-radius: 5px;
+}
+
+.progress-text {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--aqo-gray-dark);
+}
+
+.impact-story {
+  background: var(--aqo-cream);
+  padding: 40px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  border-left: 4px solid var(--aqo-orange);
+}
+
+.impact-content {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.impact-content p {
+  margin-bottom: 20px;
+}
+
+.heat-comparison {
+  margin-bottom: 50px;
+}
+
+.comparison-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.comparison-item {
+  text-align: center;
+}
+
+.image-placeholder {
+  height: 200px;
+  background: var(--aqo-cream);
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  border: 2px dashed var(--aqo-orange);
+}
+
+.image-placeholder.satellite-view {
+  background: linear-gradient(45deg, #333, #666);
+}
+
+.image-placeholder.thermal-view {
+  background: linear-gradient(45deg, #ff6b35, #ff0000);
+}
+
+.image-placeholder.canopy-view {
+  background: linear-gradient(45deg, #4caf50, #81c784);
+}
+
+.comparison-item p {
+  color: var(--aqo-gray-dark);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.user-action {
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.user-action p {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.user-action .btn {
+  background: var(--aqo-white);
+  color: var(--aqo-orange);
+}
+
+@media (max-width: 768px) {
+  .heat-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+  }
+  
+  .factors-grid,
+  .solutions-grid,
+  .comparison-images {
+    grid-template-columns: 1fr;
+  }
+}

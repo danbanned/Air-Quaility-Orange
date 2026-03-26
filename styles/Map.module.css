@@ -1,0 +1,157 @@
+/* styles/Map.module.css */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mapGuide {
+  margin: 40px 0;
+  padding: 40px;
+  background: var(--aqo-cream);
+  border-radius: 10px;
+}
+
+.mapGuide h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.guideSteps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.guideStep {
+  text-align: center;
+  position: relative;
+}
+
+.stepNumber {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: var(--aqo-orange);
+  color: var(--aqo-white);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 40px;
+  margin-bottom: 15px;
+}
+
+.guideStep h3 {
+  color: var(--aqo-orange-dark);
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.guideStep p {
+  color: var(--aqo-gray-dark);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.mapLocations {
+  margin: 40px 0;
+}
+
+.mapLocations h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.locationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.locationCategory {
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.locationCategory h3 {
+  color: var(--aqo-orange);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--aqo-cream);
+}
+
+.locationCategory ul {
+  list-style: none;
+  padding: 0;
+}
+
+.locationCategory li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--aqo-cream);
+  line-height: 1.5;
+}
+
+.locationCategory li:last-child {
+  border-bottom: none;
+}
+
+.locationCategory li strong {
+  color: var(--aqo-orange-dark);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.mapStory {
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  padding: 40px;
+  border-radius: 10px;
+  margin: 40px 0;
+  text-align: center;
+}
+
+.mapStory h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.mapStory p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  opacity: 0.95;
+}
+
+.userContext {
+  background: var(--aqo-orange-light);
+  color: var(--aqo-white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+@media (max-width: 768px) {
+  .guideSteps {
+    grid-template-columns: 1fr;
+  }
+  
+  .locationsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mapStory {
+    padding: 30px 20px;
+  }
+  
+  .mapStory h2 {
+    font-size: 1.5rem;
+  }
+}

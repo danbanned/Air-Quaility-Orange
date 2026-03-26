@@ -1,0 +1,391 @@
+/* styles/History.module.css */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.introSection {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  padding: 30px;
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.introText {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.redliningSection {
+  margin-bottom: 60px;
+}
+
+.redliningSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.redliningContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.redliningText {
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.redliningText p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.redliningText ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.redliningText li {
+  padding: 10px 0 10px 25px;
+  position: relative;
+  border-bottom: 1px solid var(--aqo-cream);
+}
+
+.redliningText li::before {
+  content: "•";
+  color: var(--aqo-orange);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.redliningMap {
+  background: var(--aqo-cream);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.mapPlaceholder {
+  background: var(--aqo-white);
+  height: 400px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px dashed var(--aqo-orange);
+}
+
+.mapPlaceholder span {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.mapPlaceholder p {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.mapLegend {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mapLegend span {
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.mapLegend .green {
+  background: #4caf50;
+  color: white;
+}
+
+.mapLegend .blue {
+  background: #2196f3;
+  color: white;
+}
+
+.mapLegend .yellow {
+  background: #ffc107;
+  color: black;
+}
+
+.mapLegend .red {
+  background: #f44336;
+  color: white;
+}
+
+.timelineSection {
+  margin-bottom: 60px;
+}
+
+.timelineSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 120px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--aqo-orange);
+}
+
+.timelineItem {
+  display: flex;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.timelineYear {
+  width: 100px;
+  font-weight: bold;
+  color: var(--aqo-orange);
+  font-size: 1.1rem;
+  padding-right: 20px;
+  text-align: right;
+}
+
+.timelineContent {
+  flex: 1;
+  background: var(--aqo-white);
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: 40px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.timelineContent::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  background: var(--aqo-orange);
+  border-radius: 50%;
+}
+
+.timelineContent h3 {
+  color: var(--aqo-orange);
+  margin-bottom: 10px;
+}
+
+.timelineContent p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.timelineImpact {
+  background: var(--aqo-cream);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.95rem;
+}
+
+.legacySection {
+  margin-bottom: 60px;
+}
+
+.legacySection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.legacyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.legacyCard {
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.legacyCard:hover {
+  transform: translateY(-5px);
+}
+
+.legacyIcon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.legacyCard h3 {
+  color: var(--aqo-orange);
+  margin-bottom: 15px;
+}
+
+.legacyCard p {
+  color: var(--aqo-gray-dark);
+  line-height: 1.5;
+}
+
+.resistanceSection {
+  background: var(--aqo-cream);
+  padding: 40px;
+  border-radius: 10px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.resistanceSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.resistanceSection > p {
+  max-width: 800px;
+  margin: 0 auto 30px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.resistanceQuotes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.resistanceQuotes blockquote {
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  font-style: italic;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.resistanceQuotes blockquote::before {
+  content: '"';
+  font-size: 4rem;
+  color: var(--aqo-orange);
+  opacity: 0.3;
+  position: absolute;
+  top: -10px;
+  left: 10px;
+}
+
+.resistanceQuotes cite {
+  display: block;
+  margin-top: 15px;
+  color: var(--aqo-orange);
+  font-style: normal;
+  font-weight: bold;
+}
+
+.ctaSection {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.ctaSection h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaButtons .btn-secondary {
+  background: transparent;
+  border-color: var(--aqo-white);
+  color: var(--aqo-white);
+}
+
+.ctaButtons .btn-secondary:hover {
+  background: var(--aqo-white);
+  color: var(--aqo-orange);
+}
+
+.userContext {
+  background: var(--aqo-orange-light);
+  color: var(--aqo-white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+@media (max-width: 768px) {
+  .redliningContent {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeline::before {
+    left: 20px;
+  }
+  
+  .timelineItem {
+    flex-direction: column;
+  }
+  
+  .timelineYear {
+    width: auto;
+    text-align: left;
+    margin-bottom: 10px;
+    padding-left: 50px;
+  }
+  
+  .timelineContent {
+    margin-left: 50px;
+  }
+  
+  .resistanceQuotes {
+    grid-template-columns: 1fr;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+  }
+  
+  .ctaButtons a {
+    width: 100%;
+  }
+}

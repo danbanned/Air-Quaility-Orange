@@ -1,0 +1,19 @@
+{
+  "name": "air-quality-orange",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@react-google-maps/api": "latest",
+    "chart.js": "latest",
+    "react-chartjs-2": "latest",
+    "axios": "latest"
+  }
+}

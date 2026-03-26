@@ -1,0 +1,341 @@
+/* styles/Contact.module.css */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.contactInfo {
+  background: var(--aqo-white);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.contactInfo h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.infoCard {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--aqo-cream);
+}
+
+.infoCard:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.infoCard h3 {
+  color: var(--aqo-orange-dark);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.infoCard p {
+  color: var(--aqo-gray-dark);
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.socialSection {
+  margin-bottom: 30px;
+}
+
+.socialSection h3 {
+  color: var(--aqo-orange-dark);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.socialLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.socialLink {
+  padding: 10px 20px;
+  background: var(--aqo-cream);
+  color: var(--aqo-orange);
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.socialLink:hover {
+  background: var(--aqo-orange);
+  color: var(--aqo-white);
+}
+
+.officeHours h3 {
+  color: var(--aqo-orange-dark);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.officeHours p {
+  color: var(--aqo-gray-dark);
+  margin-bottom: 5px;
+}
+
+.contactForm {
+  background: var(--aqo-white);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.contactForm h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--aqo-gray-dark);
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--aqo-cream);
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--aqo-orange);
+}
+
+.formCheckbox {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.formCheckbox input {
+  width: auto;
+}
+
+.formCheckbox label {
+  color: var(--aqo-gray-dark);
+}
+
+.contactForm .btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+.successMessage {
+  text-align: center;
+  padding: 40px;
+  background: var(--aqo-green);
+  color: var(--aqo-white);
+  border-radius: 10px;
+}
+
+.successMessage h3 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.successMessage p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+}
+
+.mapSection {
+  margin-bottom: 50px;
+}
+
+.mapSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mapPlaceholder {
+  background: var(--aqo-cream);
+  height: 400px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--aqo-orange);
+}
+
+.mapContent {
+  text-align: center;
+}
+
+.mapContent span {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.mapContent p {
+  font-size: 1.2rem;
+  color: var(--aqo-gray-dark);
+  margin-bottom: 10px;
+}
+
+.mapAddress {
+  font-weight: bold;
+  color: var(--aqo-orange) !important;
+  margin-bottom: 20px !important;
+}
+
+.teamSection {
+  margin-bottom: 50px;
+}
+
+.teamSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.teamMember {
+  text-align: center;
+}
+
+.memberImage {
+  width: 150px;
+  height: 150px;
+  background: var(--aqo-cream);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  border: 3px solid var(--aqo-orange);
+}
+
+.teamMember h3 {
+  color: var(--aqo-orange);
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+}
+
+.teamMember p {
+  color: var(--aqo-gray-dark);
+  margin-bottom: 5px;
+}
+
+.memberContact {
+  font-size: 0.9rem;
+  color: var(--aqo-orange) !important;
+}
+
+.faqSection {
+  margin-bottom: 40px;
+}
+
+.faqSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.faqItem {
+  background: var(--aqo-white);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.faqItem h3 {
+  color: var(--aqo-orange);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.faqItem p {
+  color: var(--aqo-gray-dark);
+  line-height: 1.6;
+}
+
+.userContext {
+  background: var(--aqo-orange-light);
+  color: var(--aqo-white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+@media (max-width: 768px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .teamGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .memberImage {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .socialLinks {
+    flex-direction: column;
+  }
+  
+  .socialLink {
+    text-align: center;
+  }
+}

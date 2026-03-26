@@ -1,0 +1,203 @@
+/* styles/Problem.module.css */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.overview {
+  max-width: 800px;
+  margin: 0 auto 50px;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: var(--aqo-gray-dark);
+  padding: 30px;
+  background: var(--aqo-cream);
+  border-radius: 10px;
+  border-left: 4px solid var(--aqo-orange);
+}
+
+.problemsGrid {
+  display: grid;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.problemCard {
+  background: var(--aqo-white);
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.problemCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.problemIcon {
+  font-size: 4rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.problemCard h2 {
+  color: var(--aqo-orange);
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.problemDescription {
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--aqo-gray-dark);
+  max-width: 800px;
+  margin: 0 auto 30px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid var(--aqo-cream);
+}
+
+.problemDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.problemDetails h3 {
+  color: var(--aqo-orange-dark);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.problemDetails ul {
+  list-style: none;
+  padding: 0;
+}
+
+.problemDetails li {
+  padding: 10px 0 10px 25px;
+  position: relative;
+  color: var(--aqo-black);
+  border-bottom: 1px solid var(--aqo-cream);
+}
+
+.problemDetails li:last-child {
+  border-bottom: none;
+}
+
+.problemDetails li::before {
+  content: "•";
+  color: var(--aqo-orange);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.urgencySection {
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: var(--aqo-white);
+  padding: 50px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.urgencySection h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.urgencyStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.urgencyStat {
+  text-align: center;
+}
+
+.statNumber {
+  display: block;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.statLabel {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.urgencyText {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  opacity: 0.95;
+}
+
+.ctaSection {
+  text-align: center;
+  padding: 40px;
+  background: var(--aqo-cream);
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.ctaSection h2 {
+  color: var(--aqo-orange);
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.userContext {
+  background: var(--aqo-orange-light);
+  color: var(--aqo-white);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 30px 0;
+}
+
+@media (max-width: 768px) {
+  .problemDetails {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .problemCard {
+    padding: 30px 20px;
+  }
+  
+  .problemCard h2 {
+    font-size: 1.5rem;
+  }
+  
+  .urgencySection {
+    padding: 30px 20px;
+  }
+  
+  .urgencyStats {
+    grid-template-columns: 1fr;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+  }
+  
+  .ctaButtons a {
+    width: 100%;
+  }
+}

@@ -1,0 +1,133 @@
+.header {
+  padding: 30px 0 10px;
+}
+
+.heroMessage {
+  background: var(--aqo-white);
+  border-left: 5px solid var(--aqo-orange);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.heroMessage h2 {
+  color: var(--aqo-orange-dark);
+  margin-bottom: 8px;
+}
+
+.opportunitiesGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-bottom: 30px;
+}
+
+.opportunityCard {
+  text-align: left;
+  border: 1px solid #ffd8c7;
+  border-radius: 10px;
+  background: var(--aqo-white);
+  padding: 18px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.opportunityCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.selected {
+  border-color: var(--aqo-orange);
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.25);
+}
+
+.opportunityIcon {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.opportunityCard h3 {
+  margin-bottom: 6px;
+  color: var(--aqo-orange-dark);
+}
+
+.opportunityCard p {
+  color: var(--aqo-black);
+  margin-bottom: 12px;
+}
+
+.opportunityDetails {
+  display: grid;
+  gap: 12px;
+}
+
+.commitments strong,
+.skills strong {
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.commitments ul,
+.skills ul {
+  padding-left: 18px;
+  color: var(--aqo-gray-dark);
+}
+
+.signupForm {
+  background: var(--aqo-white);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.signupForm h2 {
+  color: var(--aqo-orange-dark);
+  margin-bottom: 16px;
+}
+
+.formGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: var(--aqo-black);
+}
+
+.formGroup input,
+.formGroup textarea {
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  padding: 10px;
+  font: inherit;
+}
+
+.formGroup textarea {
+  resize: vertical;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .signupForm,
+  .heroMessage {
+    padding: 18px;
+  }
+}

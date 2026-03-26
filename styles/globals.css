@@ -1,0 +1,91 @@
+/* styles/globals.css */
+:root {
+  --aqo-orange: #FF6B35;
+  --aqo-orange-light: #FF8C5A;
+  --aqo-orange-dark: #E54B1E;
+  --aqo-brown: #8B4513;
+  --aqo-cream: #FFF4E6;
+  --aqo-white: #FFFFFF;
+  --aqo-black: #2C2C2C;
+  --aqo-gray: #F5F5F5;
+  --aqo-gray-dark: #666666;
+  --aqo-green: #4CAF50;
+  --aqo-red: #f44336;
+  --aqo-blue: #2196F3;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: var(--aqo-black);
+  background-color: var(--aqo-cream);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--aqo-orange);
+  color: var(--aqo-white);
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: var(--aqo-orange-dark);
+}
+
+.btn-secondary {
+  background-color: var(--aqo-white);
+  color: var(--aqo-orange);
+  border: 2px solid var(--aqo-orange);
+}
+
+.btn-secondary:hover {
+  background-color: var(--aqo-orange);
+  color: var(--aqo-white);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--aqo-orange);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--aqo-gray-dark);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+}
