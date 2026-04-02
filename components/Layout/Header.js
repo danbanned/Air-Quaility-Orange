@@ -31,6 +31,13 @@ const Header = ({ userId }) => {
       ]
     },
     {
+      title: 'Get Started',
+      icon: '@',
+      items: [
+        { path: '/AQStories', label: 'Start Your Journey', description: 'Get a feel for our work' },
+      ]
+    },
+    {
       title: 'Explore',
       icon: '🗺️',
       items: [
