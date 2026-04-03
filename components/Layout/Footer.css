@@ -1,10 +1,11 @@
 /* components/Layout/Footer.css */
 .footer {
-  background: linear-gradient(135deg, var(--aqo-orange-dark), #B3390F);
-  color: var(--aqo-white);
+  background: linear-gradient(180deg, rgba(247, 241, 227, 0.88), rgba(238, 223, 193, 0.94));
+  color: rgba(4, 16, 27, 0.88);
   padding: 50px 0 20px;
   margin-top: 60px;
   position: relative;
+  backdrop-filter: blur(18px);
 }
 
 .footer::before {
@@ -14,7 +15,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--aqo-orange), var(--aqo-white), var(--aqo-orange));
+  background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), rgba(226, 212, 176, 0.9), rgba(91, 170, 255, 0.2));
 }
 
 .footer-content {
@@ -32,7 +33,7 @@
 }
 
 .footer-section h3 {
-  color: var(--aqo-white);
+  color: rgba(4, 16, 27, 0.88);
   font-size: 1.2rem;
   margin-bottom: 20px;
   position: relative;
@@ -50,7 +51,7 @@
 }
 
 .footer-section p {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(4, 16, 27, 0.68);
   line-height: 1.6;
   margin-bottom: 20px;
   font-size: 0.95rem;
@@ -67,7 +68,7 @@
 }
 
 .footer-section ul li a {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(4, 16, 27, 0.72);
   text-decoration: none;
   transition: all 0.3s;
   display: inline-block;
@@ -75,12 +76,12 @@
 }
 
 .footer-section ul li a:hover {
-  color: var(--aqo-white);
+  color: rgba(4, 16, 27, 0.92);
   transform: translateX(5px);
 }
 
 .footer-section ul li {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(4, 16, 27, 0.72);
   font-size: 0.95rem;
   display: flex;
   align-items: center;
@@ -94,12 +95,12 @@
 }
 
 .social-links a {
-  color: var(--aqo-white);
+  color: rgba(4, 16, 27, 0.88);
   font-size: 1.5rem;
   text-decoration: none;
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(4, 16, 27, 0.06);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -109,6 +110,7 @@
 
 .social-links a:hover {
   background: var(--aqo-orange);
+  color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
 }
@@ -119,23 +121,25 @@
   border-radius: 5px;
   margin-bottom: 10px;
   font-size: 0.95rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(4, 16, 27, 0.88);
+  border: 1px solid rgba(226, 212, 176, 0.12);
   transition: all 0.3s;
 }
 
 .footer-section input[type="email"]:focus {
   outline: none;
-  background: var(--aqo-white);
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
 }
 
 .footer-section input[type="email"]::placeholder {
-  color: #999;
+  color: rgba(247, 241, 227, 0.45);
 }
 
 .footer-section .btn {
-  background-color: var(--aqo-white);
-  color: var(--aqo-orange-dark);
+  background-color: rgba(255, 107, 53, 0.92);
+  color: var(--aqo-white);
   border: none;
   padding: 12px;
   font-weight: bold;
@@ -157,11 +161,11 @@
   margin: 40px auto 0;
   padding: 20px 20px 0;
   text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(4, 16, 27, 0.08);
 }
 
 .footer-bottom p {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(4, 16, 27, 0.62);
   font-size: 0.9rem;
 }
 

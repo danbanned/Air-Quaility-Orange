@@ -3,21 +3,84 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: clip;
+}
+
+.site-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: #050912;
+}
+
+.site-background-map {
+  position: absolute;
+  inset: 0;
+}
+
+.site-background-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4, 8, 16, 0.72) 0%, rgba(4, 8, 16, 0.56) 22%, rgba(4, 8, 16, 0.78) 100%),
+    radial-gradient(circle at 22% 18%, rgba(255, 107, 53, 0.14), transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(91, 170, 255, 0.16), transparent 28%);
+}
+
+.site-background-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(226, 212, 176, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226, 212, 176, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.42), rgba(0,0,0,0));
+}
+
+.site-background-glow {
+  position: absolute;
+  width: 36vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.2;
+}
+
+.site-background-glow-left {
+  left: -10vw;
+  bottom: -12vh;
+  background: rgba(255, 107, 53, 0.34);
+}
+
+.site-background-glow-right {
+  right: -10vw;
+  top: -8vh;
+  background: rgba(91, 170, 255, 0.28);
 }
 
 .main-content {
   flex: 1;
-  padding: 20px 0;
-  background-color: var(--aqo-cream);
+  padding: calc(var(--header-height) + 20px) 0 24px;
+  background: transparent;
+  position: relative;
+  z-index: 2;
+}
+
+.main-shell {
+  position: relative;
+  z-index: 2;
 }
 
 .header {
-  background-color: var(--aqo-white);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: rgba(5, 9, 18, 0.76);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.24);
   padding: 15px 0;
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(226, 212, 176, 0.08);
+  backdrop-filter: blur(18px);
 }
 
 .header-content {
@@ -99,10 +162,14 @@
 }
 
 .footer {
-  background-color: var(--aqo-orange-dark);
+  background-color: rgba(5, 9, 18, 0.86);
   color: var(--aqo-white);
   padding: 40px 0 20px;
   margin-top: 40px;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(226, 212, 176, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .footer-content {
@@ -169,10 +236,10 @@
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--aqo-white);
+    background-color: rgba(5, 9, 18, 0.94);
     flex-direction: column;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
   }
 
   .nav-menu.open {

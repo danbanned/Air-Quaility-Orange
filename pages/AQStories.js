@@ -263,6 +263,11 @@ const AQStories = () => {
     const container = containerRef.current;
     if (!container) return;
 
+    // Clear any existing canvas
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -503,6 +508,11 @@ const AQStories = () => {
     const handleResize = () => {
       aspect = window.innerWidth / window.innerHeight;
       renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.left = -FRUSTUM * aspect / 2 / CAM.zoom + CAM.x;
+      camera.right = FRUSTUM * aspect / 2 / CAM.zoom + CAM.x;
+      camera.top = FRUSTUM / 2 / CAM.zoom + CAM.y;
+      camera.bottom = -FRUSTUM / 2 / CAM.zoom + CAM.y;
+      camera.updateProjectionMatrix();
     };
     window.addEventListener('resize', handleResize);
 
@@ -573,154 +583,202 @@ const AQStories = () => {
     setCurrentChapter(index);
   };
 
+  const introContent = {
+    title: "Where air becomes",
+    titleEm: "a story.",
+    subtitle: "AQO Virtual Museum · 2025",
+    description: "Six immersive exhibits exploring the invisible crisis shaping our world — one breath at a time."
+  };
+
   return (
-  <>
-    <Head>
-      <title>AQStories — AQO Virtual Museum</title>
-      <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500&display=swap" rel="stylesheet" />
-    </Head>
+    <>
+      <Head>
+        <title>AQStories — AQO Virtual Museum</title>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500&display=swap" rel="stylesheet" />
+      </Head>
 
-    <style jsx global>{`
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        background: #050912;
-        overflow: hidden;
-        font-family: 'Sora', sans-serif;
-      }
-      /* Fix canvas layering */
-      canvas {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        z-index: 1 !important;
-      }
-      /* Ensure UI elements are above canvas */
-      #hover-label {
-        position: fixed;
-        bottom: 68px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 100;
-        pointer-events: none;
-        background: rgba(5, 9, 18, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 8px 20px;
-        font-size: 13px;
-        color: #e2d4b0;
-        letter-spacing: 0.3px;
-        opacity: 0;
-        transition: opacity 0.25s;
-        white-space: nowrap;
-        font-family: 'Sora', sans-serif;
-      }
-      #vis-canvas {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-    `}</style>
+      <style jsx global>{`
+        *,
+        *::before,
+        *::after {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          background: #050912;
+          overflow: hidden;
+          font-family: 'Sora', sans-serif;
+        }
+        #hover-label {
+          position: fixed;
+          bottom: 68px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 100;
+          pointer-events: none;
+          background: rgba(5, 9, 18, 0.85);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          padding: 8px 20px;
+          font-size: 13px;
+          color: #e2d4b0;
+          letter-spacing: 0.3px;
+          opacity: 0;
+          transition: opacity 0.25s;
+          white-space: nowrap;
+          font-family: 'Sora', sans-serif;
+        }
+        #vis-canvas {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: translateY(24px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+      `}</style>
 
-    {/* Intro Screen - high z-index */}
-    {isIntroVisible && (
+      {/* Intro Screen */}
+      {isIntroVisible && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 1000,
+          background: '#050912',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'opacity 0.8s'
+        }}>
+          <div style={{ fontSize: '10px', letterSpacing: '2.5px', textTransform: 'uppercase', color: 'rgba(226,212,176,0.35)', marginBottom: '24px' }}>
+            {introContent.subtitle}
+          </div>
+          <h1 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 'clamp(40px, 7vw, 72px)', color: '#e2d4b0', textAlign: 'center', letterSpacing: '-1px', marginBottom: '16px' }}>
+            {introContent.title}<br /><em style={{ color: '#5baaff', fontStyle: 'italic' }}>{introContent.titleEm}</em>
+          </h1>
+          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.35)', marginBottom: '40px', textAlign: 'center', maxWidth: '420px', lineHeight: '1.7' }}>
+            {introContent.description}
+          </p>
+          <button 
+            onClick={() => setIsIntroVisible(false)}
+            style={{
+              background: '#e2d4b0',
+              color: '#050912',
+              border: 'none',
+              padding: '14px 40px',
+              borderRadius: '8px',
+              fontFamily: "'Sora', sans-serif",
+              fontSize: '15px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              letterSpacing: '0.3px'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#fff'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#e2d4b0'}
+          >
+            Enter the Museum →
+          </button>
+        </div>
+      )}
+
+      {/* Three.js Canvas Container - Single container at the bottom */}
+      <div 
+        ref={containerRef} 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100vh',
+          zIndex: 1
+        }} 
+      />
+
+      {/* HUD */}
       <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1000,
-        background: '#050912',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transition: 'opacity 0.8s'
-      }}>
-        {/* intro content */}
-      </div>
-    )}
-
-    {/* Three.js Canvas Container - lowest z-index */}
-    <div 
-      ref={containerRef} 
-      style={{ 
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100%', 
-        height: '100vh',
-        zIndex: 1
-      }} 
-    />
-
-    {/* HUD - high z-index */}
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 100,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '20px 32px',
-      pointerEvents: 'none',
-      background: 'linear-gradient(to bottom, rgba(5,9,18,0.9), transparent)'
-    }}>
-      {/* HUD content */}
-    </div>
-
-    {/* Hint text */}
-    <div style={{
-      position: 'fixed',
-      bottom: '28px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      fontSize: '12px',
-      color: 'rgba(255,255,255,0.2)',
-      zIndex: 100,
-      pointerEvents: 'none',
-      letterSpacing: '0.8px',
-      whiteSpace: 'nowrap'
-    }}>
-      6 exhibits · Drag to navigate the museum
-    </div>
-
-    {/* Hover label */}
-    <div id="hover-label"></div>
-
-    {/* AQI Legend */}
-    <div style={{
-      position: 'fixed',
-      bottom: '28px',
-      right: '28px',
-      zIndex: 100,
-      background: 'rgba(5,9,18,0.8)',
-      border: '1px solid rgba(255,255,255,0.07)',
-      borderRadius: '10px',
-      padding: '12px 16px',
-      pointerEvents: 'none'
-    }}>
-      {/* legend content */}
-    </div>
-
-    {/* Story Panel Overlay - highest z-index */}
-    {isOverlayOpen && currentExhibit && (
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 200,
+        right: 0,
+        zIndex: 100,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(5,9,18,0.88)',
-        transition: 'background 0.45s'
+        justifyContent: 'space-between',
+        padding: '20px 32px',
+        pointerEvents: 'none',
+        background: 'linear-gradient(to bottom, rgba(5,9,18,0.9), transparent)'
       }}>
+        <div style={{ pointerEvents: 'all' }}>
+          <h1 style={{ fontFamily: "'DM Serif Display', serif", fontSize: '24px', color: '#e2d4b0', letterSpacing: '-0.3px', lineHeight: 1 }}>AQStories</h1>
+          <p style={{ fontSize: '10px', letterSpacing: '3px', textTransform: 'uppercase', color: 'rgba(226,212,176,0.35)', marginTop: '3px' }}>AQO Virtual Museum</p>
+        </div>
+        <div style={{ display: 'flex', gap: '8px', pointerEvents: 'all' }}>
+          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '6px 14px', fontSize: '11px', color: 'rgba(255,255,255,0.35)', cursor: 'default', letterSpacing: '0.5px' }}>Drag to explore</div>
+          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '6px 14px', fontSize: '11px', color: 'rgba(255,255,255,0.35)', cursor: 'default', letterSpacing: '0.5px' }}>Scroll to zoom</div>
+          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '6px 14px', fontSize: '11px', color: 'rgba(255,255,255,0.35)', cursor: 'default', letterSpacing: '0.5px' }}>Click exhibit to enter</div>
+        </div>
+      </div>
 
+      {/* Hint text */}
+      <div style={{
+        position: 'fixed',
+        bottom: '28px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        fontSize: '12px',
+        color: 'rgba(255,255,255,0.2)',
+        zIndex: 100,
+        pointerEvents: 'none',
+        letterSpacing: '0.8px',
+        whiteSpace: 'nowrap'
+      }}>
+        6 exhibits · Drag to navigate the museum
+      </div>
+
+      {/* Hover label */}
+      <div id="hover-label"></div>
+
+      {/* AQI Legend */}
+      <div style={{
+        position: 'fixed',
+        bottom: '28px',
+        right: '28px',
+        zIndex: 100,
+        background: 'rgba(5,9,18,0.8)',
+        border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '10px',
+        padding: '12px 16px',
+        pointerEvents: 'none'
+      }}>
+        <p style={{ fontSize: '9px', letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', marginBottom: '8px' }}>AQI Range</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}><div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4dbb8a' }}></div><span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Good 0–50</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}><div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#e8c830' }}></div><span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Moderate 51–100</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}><div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#e89030' }}></div><span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Unhealthy 101–150</span></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#e06060' }}></div><span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Hazardous 151+</span></div>
+      </div>
+
+      {/* Story Panel Overlay */}
+      {isOverlayOpen && currentExhibit && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 200,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(5,9,18,0.88)',
+          transition: 'background 0.45s'
+        }}>
           <div style={{
             width: 'min(720px, 92vw)',
             background: '#0b1220',
@@ -729,7 +787,7 @@ const AQStories = () => {
             overflow: 'hidden',
             animation: 'scaleIn 0.45s cubic-bezier(0.2, 0.85, 0.3, 1)'
           }}>
-            <div id="vis" style={{ width: '100%', height: '220px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ width: '100%', height: '220px', position: 'relative', overflow: 'hidden' }}>
               <canvas id="vis-canvas" style={{ width: '100%', height: '100%', display: 'block' }}></canvas>
               <div style={{
                 position: 'absolute',
@@ -767,12 +825,12 @@ const AQStories = () => {
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(255,255,255,0.1)';
-                  e.target.style.color = '#fff';
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                  e.currentTarget.style.color = '#fff';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(0,0,0,0.55)';
-                  e.target.style.color = 'rgba(255,255,255,0.5)';
+                  e.currentTarget.style.background = 'rgba(0,0,0,0.55)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
                 }}
               >
                 ✕
@@ -807,13 +865,13 @@ const AQStories = () => {
                 }}
                 onMouseEnter={(e) => {
                   if (currentChapter !== 0) {
-                    e.target.style.borderColor = 'rgba(255,255,255,0.25)';
-                    e.target.style.color = '#fff';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+                    e.currentTarget.style.color = '#fff';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.borderColor = 'rgba(255,255,255,0.1)';
-                  e.target.style.color = 'rgba(255,255,255,0.5)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
                 }}
               >
                 ← Prev
@@ -848,12 +906,12 @@ const AQStories = () => {
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.borderColor = 'rgba(255,255,255,0.25)';
-                  e.target.style.color = '#fff';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+                  e.currentTarget.style.color = '#fff';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.borderColor = 'rgba(255,255,255,0.1)';
-                  e.target.style.color = 'rgba(255,255,255,0.5)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
                 }}
               >
                 {currentChapter === currentExhibit.chapters.length - 1 ? 'Exit Exhibit →' : 'Next →'}
@@ -862,31 +920,6 @@ const AQStories = () => {
           </div>
         </div>
       )}
-
-      <style jsx global>{`
-        @keyframes scaleIn {
-          from {
-            opacity: 0;
-            transform: translateY(24px) scale(0.98);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-      `}</style>
-
-      {/* Three.js Container */}
-      <div 
-      ref={containerRef} 
-      style={{
-         width: '100%',
-          height: '100vh',
-           position: 'fixed', 
-           top: 0,
-            left: 0,
-            zIndex: 1  // Lower z-index so content sits above
- }} />
     </>
   );
 };

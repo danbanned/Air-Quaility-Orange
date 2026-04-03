@@ -3,15 +3,18 @@
   --aqo-orange: #FF6B35;
   --aqo-orange-light: #FF8C5A;
   --aqo-orange-dark: #E54B1E;
-  --aqo-brown: #8B4513;
-  --aqo-cream: #FFF4E6;
-  --aqo-white: #FFFFFF;
-  --aqo-black: #2C2C2C;
-  --aqo-gray: #F5F5F5;
-  --aqo-gray-dark: #666666;
+  --aqo-brown: #C6A87A;
+  --aqo-cream: #E2D4B0;
+  --aqo-white: #F7F1E3;
+  --aqo-black: #04101B;
+  --aqo-gray: rgba(255, 255, 255, 0.08);
+  --aqo-gray-dark: rgba(247, 241, 227, 0.68);
   --aqo-green: #4CAF50;
   --aqo-red: #f44336;
   --aqo-blue: #2196F3;
+  --aqo-surface: rgba(247, 241, 227, 0.82);
+  --aqo-surface-strong: rgba(247, 241, 227, 0.9);
+  --aqo-border: rgba(226, 212, 176, 0.14);
 }
 
 * {
@@ -21,10 +24,14 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.6;
-  color: var(--aqo-black);
-  background-color: var(--aqo-cream);
+  color: var(--aqo-white);
+  background-color: #050912;
+}
+
+a {
+  color: inherit;
 }
 
 .container {
@@ -40,36 +47,42 @@ body {
 .btn {
   display: inline-block;
   padding: 12px 24px;
-  background-color: var(--aqo-orange);
-  color: var(--aqo-white);
+  background: linear-gradient(135deg, var(--aqo-orange), var(--aqo-orange-dark));
+  color: #fff;
   text-decoration: none;
-  border-radius: 5px;
-  border: none;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s;
+  box-shadow: 0 16px 32px rgba(229, 75, 30, 0.24);
 }
 
 .btn:hover {
   background-color: var(--aqo-orange-dark);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: var(--aqo-white);
-  color: var(--aqo-orange);
-  border: 2px solid var(--aqo-orange);
+  background-color: rgba(5, 9, 18, 0.42);
+  color: var(--aqo-cream);
+  border: 1px solid var(--aqo-border);
+  box-shadow: none;
+  backdrop-filter: blur(14px);
 }
 
 .btn-secondary:hover {
-  background-color: var(--aqo-orange);
+  background-color: rgba(255, 107, 53, 0.2);
   color: var(--aqo-white);
 }
 
 .section-title {
+  font-family: 'DM Serif Display', Georgia, serif;
   font-size: 2.5rem;
-  color: var(--aqo-orange);
+  color: var(--aqo-cream);
   margin-bottom: 20px;
   text-align: center;
+  letter-spacing: -0.02em;
 }
 
 .section-subtitle {

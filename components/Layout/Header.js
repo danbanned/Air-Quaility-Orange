@@ -35,6 +35,7 @@ const Header = ({ userId }) => {
       icon: '@',
       items: [
         { path: '/AQStories', label: 'Start Your Journey', description: 'Get a feel for our work' },
+        { path: '/simple-map', label: 'Cesium Map', description: '3D interactive map' },
       ]
     },
     {

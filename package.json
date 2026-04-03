@@ -3,17 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "copy-cesium": "cp -r node_modules/cesium/Build/Cesium public/cesium",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@react-google-maps/api": "latest",
+    "axios": "latest",
+    "cesium": "^1.140.0",
+    "chart.js": "latest",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "@react-google-maps/api": "latest",
-    "chart.js": "latest",
     "react-chartjs-2": "latest",
-    "axios": "latest"
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/cesium": "^1.67.14",
+    "@types/node": "^25.5.1",
+    "@types/react": "^19.2.14",
+    "typescript": "^6.0.2"
   }
 }
