@@ -1,14 +1,15 @@
+'use client';
+
 // pages/ebony.js
 import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../styles/Ebony.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Ebony = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
   const [formData, setFormData] = useState({

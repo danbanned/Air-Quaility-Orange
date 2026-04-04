@@ -1,14 +1,15 @@
+'use client';
+
 // pages/voices.js
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout/Layout';
 import StoryCard from '../components/Stories/StoryCard';
 import stories from '../data/stories';
 import styles from '../styles/Voices.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Voices = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 

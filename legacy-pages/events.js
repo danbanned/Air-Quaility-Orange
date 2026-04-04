@@ -1,13 +1,14 @@
+'use client';
+
 // pages/events.js
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout/Layout';
 import Link from 'next/link';
 import styles from '../styles/Events.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Events = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
   const [selectedMonth, setSelectedMonth] = useState('all');
 
   const events = [

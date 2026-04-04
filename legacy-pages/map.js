@@ -1,13 +1,14 @@
+'use client';
+
 // pages/map.js
 import React from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout/Layout';
 import MapComponent from '../components/Map/MapComponent';
 import styles from '../styles/Map.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const MapPage = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
 
   return (
     <>

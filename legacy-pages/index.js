@@ -1,12 +1,13 @@
+'use client';
+
 // pages/index.js
 import React, { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Home = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [currentMedia, setCurrentMedia] = useState('image'); // 'image' or 'video'
   const videoRef = useRef(null);

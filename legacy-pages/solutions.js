@@ -1,13 +1,14 @@
+'use client';
+
 // pages/solutions.js
 import React from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout/Layout';
 import Link from 'next/link';
 import styles from '../styles/Solutions.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Solutions = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
 
   const solutions = [
     {

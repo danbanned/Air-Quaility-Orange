@@ -1,9 +1,11 @@
+'use client';
+
 // pages/get-involved.js
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout/Layout';
 import styles from '../styles/GetInvolved.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const opportunities = [
   {
@@ -57,8 +59,7 @@ const opportunities = [
 ];
 
 export default function GetInvolved() {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
   const [selectedInterest, setSelectedInterest] = useState(opportunities[0].id);
 
   const selectedOpportunity = opportunities.find((item) => item.id === selectedInterest);

@@ -1,11 +1,12 @@
+'use client';
+
 // pages/contact.js - CORRECTED
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import styles from '../styles/Contact.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Contact = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleSubmit = (e) => {

@@ -1,8 +1,10 @@
 // components/Layout/Header.js
+ 'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import './Header.css';
+import useRouteInfo from '../../utils/useRouteInfo';
 
 const Header = ({ userId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,11 +13,12 @@ const Header = ({ userId }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const headerRef = useRef(null);
-  const router = useRouter();
+  const { pathname, push, userId: routeUserId } = useRouteInfo();
+  const resolvedUserId = userId || routeUserId;
 
   // Define isActive function
   const isActive = (path) => {
-    return router.pathname === path;
+    return pathname === path;
   };
 
   // Group nav items into dropdowns for better organization
@@ -87,7 +90,7 @@ const Header = ({ userId }) => {
     setMenuOpen(false);
     setActiveDropdown(null);
     setSearchOpen(false);
-  }, [router.pathname]);
+  }, [pathname]);
 
   // Handle click outside to close dropdowns
   useEffect(() => {
@@ -105,7 +108,7 @@ const Header = ({ userId }) => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}${userId ? `&userId=${userId}` : ''}`);
+      push(`/search?q=${encodeURIComponent(searchQuery)}${resolvedUserId ? `&userId=${resolvedUserId}` : ''}`);
       setSearchOpen(false);
       setSearchQuery('');
     }
@@ -126,7 +129,7 @@ const Header = ({ userId }) => {
       <div className="header-content">
         {/* Logo Section with Enhanced Design */}
         <div className="logo-section">
-          <Link href={`/?userId=${userId || ''}`} className="logo-link">
+          <Link href={`/${resolvedUserId ? `?userId=${resolvedUserId}` : ''}`} className="logo-link">
             <div className="logo-icon">
               <span className="logo-icon-main">🌍</span>
               <span className="logo-icon-glow"></span>
@@ -161,7 +164,7 @@ const Header = ({ userId }) => {
                 {group.items.map(item => (
                   <Link
                     key={item.path}
-                    href={`${item.path}${userId ? `?userId=${userId}` : ''}`}
+                    href={`${item.path}${resolvedUserId ? `?userId=${resolvedUserId}` : ''}`}
                     className={`dropdown-item ${isActive(item.path) ? 'active' : ''}`}
                   >
                     <span className="dropdown-item-label">{item.label}</span>
@@ -174,7 +177,7 @@ const Header = ({ userId }) => {
 
           {/* Single nav items */}
           <Link
-            href={`/${userId ? `?userId=${userId}` : ''}`}
+            href={`/${resolvedUserId ? `?userId=${resolvedUserId}` : ''}`}
             className={`nav-single ${isActive('/') ? 'active' : ''}`}
           >
             <span className="nav-icon">🏠</span>
@@ -217,35 +220,35 @@ const Header = ({ userId }) => {
           </div>
 
           {/* User Menu */}
-          {userId ? (
+          {resolvedUserId ? (
             <div className="user-menu">
               <button className="user-menu-trigger">
                 <span className="user-avatar">
-                  {userId.charAt(0).toUpperCase()}
+                  {resolvedUserId.charAt(0).toUpperCase()}
                 </span>
-                <span className="user-name">{userId}</span>
+                <span className="user-name">{resolvedUserId}</span>
                 <span className="user-arrow">▼</span>
               </button>
               <div className="user-dropdown">
                 <div className="user-dropdown-header">
                   <span className="user-dropdown-avatar">
-                    {userId.charAt(0).toUpperCase()}
+                    {resolvedUserId.charAt(0).toUpperCase()}
                   </span>
                   <div className="user-dropdown-info">
-                    <span className="user-dropdown-name">{userId}</span>
-                    <span className="user-dropdown-email">{userId}@example.com</span>
+                    <span className="user-dropdown-name">{resolvedUserId}</span>
+                    <span className="user-dropdown-email">{resolvedUserId}@example.com</span>
                   </div>
                 </div>
                 <div className="user-dropdown-menu">
-                  <Link href={`/profile?userId=${userId}`} className="user-dropdown-item">
+                  <Link href={`/profile?userId=${resolvedUserId}`} className="user-dropdown-item">
                     <span className="user-dropdown-icon">👤</span>
                     My Profile
                   </Link>
-                  <Link href={`/saved?userId=${userId}`} className="user-dropdown-item">
+                  <Link href={`/saved?userId=${resolvedUserId}`} className="user-dropdown-item">
                     <span className="user-dropdown-icon">🔖</span>
                     Saved Items
                   </Link>
-                  <Link href={`/activities?userId=${userId}`} className="user-dropdown-item">
+                  <Link href={`/activities?userId=${resolvedUserId}`} className="user-dropdown-item">
                     <span className="user-dropdown-icon">📋</span>
                     My Activities
                   </Link>
@@ -316,7 +319,7 @@ const Header = ({ userId }) => {
                 {group.items.map(item => (
                   <Link
                     key={item.path}
-                    href={`${item.path}${userId ? `?userId=${userId}` : ''}`}
+                    href={`${item.path}${resolvedUserId ? `?userId=${resolvedUserId}` : ''}`}
                     className={`nav-mobile-item ${isActive(item.path) ? 'active' : ''}`}
                     onClick={() => setMenuOpen(false)}
                   >
@@ -329,7 +332,7 @@ const Header = ({ userId }) => {
 
             {/* Mobile Single Items */}
             <Link
-              href={`/${userId ? `?userId=${userId}` : ''}`}
+              href={`/${resolvedUserId ? `?userId=${resolvedUserId}` : ''}`}
               className={`nav-mobile-item ${isActive('/') ? 'active' : ''}`}
               onClick={() => setMenuOpen(false)}
             >
@@ -337,7 +340,7 @@ const Header = ({ userId }) => {
             </Link>
 
             {/* Mobile Auth */}
-            {!userId && (
+            {!resolvedUserId && (
               <div className="nav-mobile-auth">
                 <Link href="/login" className="nav-mobile-auth-button login">
                   Log In

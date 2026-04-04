@@ -1,12 +1,13 @@
+'use client';
+
 // pages/data.js
 import React from 'react';
-import { useRouter } from 'next/router';
 import DataDashboard from '../components/Dashboard/DataDashboard';
 import styles from '../styles/Data.module.css';
+import useRouteInfo from '../utils/useRouteInfo';
 
 const Data = () => {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { userId } = useRouteInfo();
 
   return (
       <div className="container">
