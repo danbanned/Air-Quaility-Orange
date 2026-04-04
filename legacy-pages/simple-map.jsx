@@ -2,7 +2,28 @@
 
 import React from 'react';
 import Head from 'next/head';
-import CesiumMap from '../components/CesiumMap';
+import dynamic from 'next/dynamic';
+
+const CesiumMap = dynamic(() => import('../components/CesiumMap.jsx'), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#050912',
+        color: '#e2d4b0',
+        fontFamily: "'Sora', sans-serif"
+      }}
+    >
+      Loading 3D map...
+    </div>
+  ),
+});
 
 const SimpleMapPage = () => {
   return (
