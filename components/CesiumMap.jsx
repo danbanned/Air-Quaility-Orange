@@ -7,11 +7,55 @@ import React, { useEffect, useRef, useState } from 'react';
 // useRef: creates mutable references that persist across renders (for DOM element and viewer instance)
 // useState: manages component state (loading status and errors)
 
+function loadCesiumRuntime() {
+  return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') {
+      reject(new Error('Cesium can only load in the browser.'));
+      return;
+    }
+
+    if (window.Cesium) {
+      resolve(window.Cesium);
+      return;
+    }
+
+    const existingScript = document.querySelector('script[data-cesium-runtime="true"]');
+    if (existingScript) {
+      existingScript.addEventListener('load', () => resolve(window.Cesium), { once: true });
+      existingScript.addEventListener('error', () => reject(new Error('Failed to load Cesium runtime.')), { once: true });
+      return;
+    }
+
+    if (!document.getElementById('cesium-widgets-css')) {
+      const link = document.createElement('link');
+      link.id = 'cesium-widgets-css';
+      link.rel = 'stylesheet';
+      link.href = '/cesium/Widgets/widgets.css';
+      document.head.appendChild(link);
+    }
+
+    const script = document.createElement('script');
+    script.src = '/cesium/Cesium.js';
+    script.async = true;
+    script.dataset.cesiumRuntime = 'true';
+    script.onload = () => {
+      if (window.Cesium) {
+        resolve(window.Cesium);
+      } else {
+        reject(new Error('Cesium runtime loaded but window.Cesium is unavailable.'));
+      }
+    };
+    script.onerror = () => reject(new Error('Failed to load /cesium/Cesium.js'));
+    document.body.appendChild(script);
+  });
+}
+
 const CesiumMap = ({ 
   // Destructure props with default values if not provided
   initialLat = 40.01999,  // Default latitude: Nicetown Park, Philadelphia
   initialLon = -75.15540, // Default longitude: Nicetown Park
-  initialHeight = 2000    // Camera height in meters above ground
+  initialHeight = 2000,   // Camera height in meters above ground
+  backgroundMode = false
 }) => {
   // containerRef: reference to the DOM div where Cesium will render the 3D map
   // This connects to the div in the JSX below via ref={containerRef}
@@ -67,18 +111,12 @@ const CesiumMap = ({
     // Define async function to load Cesium (can't make useEffect async directly)
     const loadCesium = async () => {
       try {
-        // Dynamically import Cesium library - only loads when component mounts
-        // This is more efficient than static import for large libraries
-        const Cesium = await import('cesium');
+        const Cesium = await loadCesiumRuntime();
         
         // Set the base URL where Cesium's static assets (images, workers, etc.) are located
         // This connects to the npm script that copies Cesium files to public/cesium
         window.CESIUM_BASE_URL = '/cesium';
         
-        // Import Cesium's CSS for widgets (zoom buttons, compass, etc.)
-        // This makes the map controls look correct
-        await import('cesium/Build/Cesium/Widgets/widgets.css');
-
         // Set your Cesium Ion access token (required for terrain, satellite imagery)
         // Token comes from environment variable in .env.local
         // This connects Cesium to Cesium Ion's cloud services
@@ -100,9 +138,9 @@ const CesiumMap = ({
           navigationHelpButton: false, // Hides help button for navigation
           animation: false,        // Hides animation widget (speed control for time)
           timeline: false,         // Hides timeline slider
-          fullscreenButton: true,  // Shows fullscreen button (useful for presentations)
-          infoBox: true,           // Shows info box when clicking entities (for descriptions)
-          selectionIndicator: true, // Shows outline when selecting entities
+          fullscreenButton: !backgroundMode,
+          infoBox: !backgroundMode,
+          selectionIndicator: !backgroundMode,
           terrainExaggeration: 1.0, // Normal terrain height (1x real elevation)
           orderIndependentTranslucency: true, // Better transparent rendering
           contextOptions: {        // WebGL configuration for better graphics
@@ -115,6 +153,14 @@ const CesiumMap = ({
             }
           }
         });
+
+        if (backgroundMode) {
+          viewer.scene.screenSpaceCameraController.enableInputs = false;
+          viewer.scene.globe.enableLighting = true;
+          viewer.scene.fog.enabled = true;
+          viewer.scene.fog.density = 0.00035;
+          viewer.cesiumWidget.creditContainer.style.display = 'none';
+        }
 
         // Wait for viewer to be ready, then fly camera to Nicetown
         // viewer.camera.flyTo animates the camera movement instead of jumping instantly
@@ -164,7 +210,8 @@ const CesiumMap = ({
               style: Cesium.LabelStyle.FILL_AND_OUTLINE, // Both fill and outline
               verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // Label anchors at bottom
               pixelOffset: new Cesium.Cartesian2(0, -20), // Move label 20px above marker
-              heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+              heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+              show: !backgroundMode
             },
             
             // description: HTML that appears in info box when marker is clicked
@@ -203,7 +250,8 @@ const CesiumMap = ({
               style: Cesium.LabelStyle.FILL_AND_OUTLINE,
               verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
               pixelOffset: new Cesium.Cartesian2(0, -20),
-              heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
+              heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+              show: !backgroundMode
             },
             description: `  // Positive messaging for solutions
               <div style="padding: 10px; max-width: 300px;">
@@ -314,6 +362,10 @@ const CesiumMap = ({
   // If there's an error, show error UI instead of map
   // This connects to the catch block above
   if (error) {
+    if (backgroundMode) {
+      return <div style={{ width: '100%', height: '100%', background: '#050912' }} />;
+    }
+
     return (
       <div style={{ 
         padding: '60px 40px', 
@@ -346,9 +398,9 @@ const CesiumMap = ({
 
   // Main return: renders the map container with loading overlay
   return (
-    <div style={{ position: 'relative', width: '100%', height: '600px', borderRadius: '12px', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%', height: backgroundMode ? '100%' : '600px', borderRadius: backgroundMode ? '0' : '12px', overflow: 'hidden', pointerEvents: backgroundMode ? 'none' : 'auto' }}>
       {/* containerRef attaches to this div - Cesium renders here */}
-      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+      <div ref={containerRef} style={{ width: '100%', height: '100%', filter: backgroundMode ? 'saturate(0.82) brightness(0.7) contrast(1.08)' : 'none' }} />
       
       {/* Loading overlay - shows while !isLoaded (Cesium still loading) */}
       {!isLoaded && !error && (
@@ -375,7 +427,7 @@ const CesiumMap = ({
               animation: 'spin 1s linear infinite',
               margin: '0 auto 16px'
             }} />
-            <p style={{ color: '#e2d4b0' }}>Loading 3D Map of Nicetown...</p>
+            {!backgroundMode ? <p style={{ color: '#e2d4b0' }}>Loading 3D Map of Nicetown...</p> : null}
           </div>
         </div>
       )}
