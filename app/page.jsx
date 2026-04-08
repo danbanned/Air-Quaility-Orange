@@ -1,3 +1,5 @@
+import HomePage from '../legacy-pages/index';
+
 export default function Page() {
-  return <h1>Home is working</h1>;
+  return <HomePage />;
 }
