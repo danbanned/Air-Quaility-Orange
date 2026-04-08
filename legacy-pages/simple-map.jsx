@@ -59,7 +59,7 @@ const SimpleMapPage = () => {
           </h1>
           <p style={{ 
             fontSize: '12px', 
-            color: 'rgba(226,212,176,0.5)',
+            color: 'rgba(252, 187, 155, 0.88)',
             marginTop: '4px'
           }}>
             Environmental Justice Map · Nicetown, Philadelphia

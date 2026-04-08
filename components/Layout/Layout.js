@@ -5,7 +5,6 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Header from './Header';
 import Footer from './Footer';
-import SiteBackground from './SiteBackground';
 import './Layout.css';
 
 const Layout = ({ children, userId }) => {
@@ -15,7 +14,6 @@ const Layout = ({ children, userId }) => {
 
   return (
     <div className="layout">
-      <SiteBackground />
       {!isImmersiveRoute && <Header userId={userId} />}
       <main className={`main-content ${isImmersiveRoute ? 'main-content-immersive' : ''}`}>
         <div className="main-shell">{children}</div>
