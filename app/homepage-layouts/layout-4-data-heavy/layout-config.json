@@ -1,0 +1,9 @@
+{
+  "id": "layout-4-data-heavy",
+  "name": "Data-Heavy Layout",
+  "description": "Prioritizes statistics, charts, and data visualization upfront.",
+  "icon": "📊",
+  "version": 1,
+  "author": "AQO",
+  "sections": ["hero", "stats", "quote", "cta", "stories"]
+}

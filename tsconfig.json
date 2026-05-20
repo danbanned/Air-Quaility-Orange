@@ -15,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -35,8 +35,11 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "next.config.js"
-, "app/layout.jsx", "app/page.jsx", "pages/contact.js"  ],
+    "next.config.js",
+    "app/layout.jsx",
+    "app/page.jsx",
+    "pages/contact.js"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,0 +1,9 @@
+{
+  "id": "layout-3-story-focused",
+  "name": "Story-Focused Layout",
+  "description": "Emphasizes community stories and voices above all other content.",
+  "icon": "🎙️",
+  "version": 1,
+  "author": "AQO",
+  "sections": ["hero", "quote", "stories", "cta"]
+}

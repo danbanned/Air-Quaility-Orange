@@ -1,10 +1,13 @@
-// next.config.js
+/** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['maps.googleapis.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'maps.googleapis.com',
+      },
+    ],
   },
-  env: {
-    // Add any environment variables here
-  },
-}
+  env: {},
+};

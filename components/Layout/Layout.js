@@ -9,7 +9,7 @@ import './Layout.css';
 
 const Layout = ({ children, userId }) => {
   const pathname = usePathname();
-  const immersiveRoutes = new Set(['/AQStories', '/simple-map']);
+  const immersiveRoutes = new Set(['/AQStories', '/simple-map', '/map']);
   const isImmersiveRoute = immersiveRoutes.has(pathname);
 
   return (

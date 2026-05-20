@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/react';
 import './Header.css';
 import useRouteInfo from '../../utils/useRouteInfo';
 
@@ -12,13 +13,28 @@ const Header = ({ userId }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [hydrated, setHydrated] = useState(false);
+  const [siteConfig, setSiteConfig] = useState(null);
   const headerRef = useRef(null);
   const { pathname, push, userId: routeUserId } = useRouteInfo();
   const resolvedUserId = userId || routeUserId;
+  const { data: session } = useSession();
 
-  // Define isActive function
+  useEffect(() => {
+    fetch('/api/site-config')
+      .then((r) => r.json())
+      .then(setSiteConfig)
+      .catch(() => {});
+  }, []);
+  const canAccessAdmin = session?.user?.canAccessAdmin;
+  const isAuthenticated = Boolean(session?.user);
+  const sessionDisplayName = session?.user?.name || session?.user?.email?.split('@')[0] || '';
+  const sessionDisplayEmail = session?.user?.email || '';
+
+  useEffect(() => { setHydrated(true); }, []);
+
   const isActive = (path) => {
-    return pathname === path;
+    return hydrated && pathname === path;
   };
 
   // Group nav items into dropdowns for better organization
@@ -131,12 +147,12 @@ const Header = ({ userId }) => {
         <div className="logo-section">
           <Link href={`/${resolvedUserId ? `?userId=${resolvedUserId}` : ''}`} className="logo-link">
             <div className="logo-icon">
-              <span className="logo-icon-main">🌍</span>
+              <span className="logo-icon-main">{siteConfig?.logoIcon || '🌍'}</span>
               <span className="logo-icon-glow"></span>
             </div>
             <div className="logo-text">
-              <span className="logo-main">Air Quality Orange</span>
-              <span className="logo-sub">Nicetown • Hunting Park • Eastwick</span>
+              <span className="logo-main">{siteConfig?.siteName || 'Air Quality Orange'}</span>
+              <span className="logo-sub">{siteConfig?.siteSubtitle || 'Nicetown • Hunting Park • Eastwick'}</span>
             </div>
           </Link>
         </div>
@@ -220,7 +236,52 @@ const Header = ({ userId }) => {
           </div>
 
           {/* User Menu */}
-          {resolvedUserId ? (
+          {canAccessAdmin ? (
+            <div className="auth-buttons">
+              <Link href="/admin/dashboard" className="auth-button login">
+                Workspace
+              </Link>
+              <button className="auth-button signup" type="button" onClick={() => signOut({ callbackUrl: '/' })}>
+                Sign Out
+              </button>
+            </div>
+          ) : isAuthenticated ? (
+            <div className="user-menu">
+              <button className="user-menu-trigger">
+                <span className="user-avatar">
+                  {sessionDisplayName.charAt(0).toUpperCase()}
+                </span>
+                <span className="user-name">{sessionDisplayName}</span>
+                <span className="user-arrow">▼</span>
+              </button>
+              <div className="user-dropdown">
+                <div className="user-dropdown-header">
+                  <span className="user-dropdown-avatar">
+                    {sessionDisplayName.charAt(0).toUpperCase()}
+                  </span>
+                  <div className="user-dropdown-info">
+                    <span className="user-dropdown-name">{sessionDisplayName}</span>
+                    <span className="user-dropdown-email">{sessionDisplayEmail}</span>
+                  </div>
+                </div>
+                <div className="user-dropdown-menu">
+                  <Link href="/voices" className="user-dropdown-item">
+                    <span className="user-dropdown-icon">📝</span>
+                    My Stories
+                  </Link>
+                  <Link href="/get-involved" className="user-dropdown-item">
+                    <span className="user-dropdown-icon">🤝</span>
+                    Opportunities
+                  </Link>
+                  <div className="user-dropdown-divider"></div>
+                  <button className="user-dropdown-item logout" type="button" onClick={() => signOut({ callbackUrl: '/' })}>
+                    <span className="user-dropdown-icon">🚪</span>
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : resolvedUserId ? (
             <div className="user-menu">
               <button className="user-menu-trigger">
                 <span className="user-avatar">
@@ -263,10 +324,7 @@ const Header = ({ userId }) => {
           ) : (
             <div className="auth-buttons">
               <Link href="/login" className="auth-button login">
-                Log In
-              </Link>
-              <Link href="/signup" className="auth-button signup">
-                Sign Up
+                Sign In
               </Link>
             </div>
           )}
@@ -340,13 +398,26 @@ const Header = ({ userId }) => {
             </Link>
 
             {/* Mobile Auth */}
-            {!resolvedUserId && (
+            {canAccessAdmin ? (
+              <div className="nav-mobile-auth">
+                <Link href="/admin/dashboard" className="nav-mobile-auth-button login">
+                  Workspace
+                </Link>
+                <button className="nav-mobile-auth-button signup" type="button" onClick={() => signOut({ callbackUrl: '/' })}>
+                  Sign Out
+                </button>
+              </div>
+            ) : isAuthenticated ? (
+              <div className="nav-mobile-auth">
+                <span className="nav-mobile-user-email">{sessionDisplayEmail}</span>
+                <button className="nav-mobile-auth-button signup" type="button" onClick={() => signOut({ callbackUrl: '/' })}>
+                  Sign Out
+                </button>
+              </div>
+            ) : !resolvedUserId && (
               <div className="nav-mobile-auth">
                 <Link href="/login" className="nav-mobile-auth-button login">
-                  Log In
-                </Link>
-                <Link href="/signup" className="nav-mobile-auth-button signup">
-                  Sign Up
+                  Sign In
                 </Link>
               </div>
             )}

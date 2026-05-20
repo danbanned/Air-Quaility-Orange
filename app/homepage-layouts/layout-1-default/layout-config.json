@@ -1,0 +1,9 @@
+{
+  "id": "layout-1-default",
+  "name": "Default Layout",
+  "description": "Original AQO homepage layout with hero carousel, cards, stats, quote, CTA, and community stories.",
+  "icon": "📄",
+  "version": 1,
+  "author": "AQO",
+  "sections": ["hero", "cards", "cta", "stats", "quote", "stories"]
+}

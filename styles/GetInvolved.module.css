@@ -2,6 +2,51 @@
   padding: 30px 0 10px;
 }
 
+.pageHeadingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.staffForm {
+  margin-bottom: 28px;
+  padding: 24px;
+  background: #1f2937;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.staffForm h2 {
+  margin-bottom: 16px;
+  color: #ffb08f;
+}
+
+.staffFormGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.staffFormGrid input,
+.staffFormGrid textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #4b5563;
+  background: #111827;
+  color: #fff;
+  font: inherit;
+}
+
+.feedback {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(255, 107, 53, 0.12);
+  color: #8a360f;
+}
+
 .heroMessage {
   background: var(--aqo-white);
   border-left: 5px solid var(--aqo-orange);
@@ -24,13 +69,23 @@
 }
 
 .opportunityCard {
+  display: block;
+  width: 100%;
   text-align: left;
   border: 1px solid #ffd8c7;
   border-radius: 10px;
   background: var(--aqo-white);
-  padding: 18px;
+  padding: 62px 18px 18px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.opportunityImage {
+  width: calc(100% + 36px);
+  margin: -62px -18px 12px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
 }
 
 .opportunityCard:hover {
@@ -126,6 +181,18 @@
 }
 
 @media (max-width: 768px) {
+  .pageHeadingRow {
+    align-items: stretch;
+  }
+
+  .opportunityCard {
+    padding-top: 96px;
+  }
+
+  .opportunityImage {
+    margin-top: -96px;
+  }
+
   .signupForm,
   .heroMessage {
     padding: 18px;

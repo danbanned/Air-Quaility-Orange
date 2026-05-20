@@ -3,25 +3,41 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "copy-cesium": "cp -r node_modules/cesium/Build/Cesium public/cesium",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "copy-cesium": "mkdir -p public/cesium && cp -R node_modules/cesium/Build/Cesium/. public/cesium/",
+    "dev": "npm run copy-cesium && next dev",
+    "build": "npm run copy-cesium && next build --webpack",
+    "start": "next start",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "@react-google-maps/api": "latest",
     "axios": "latest",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^12.9.0",
     "cesium": "^1.140.0",
     "chart.js": "latest",
     "next": "latest",
+    "next-auth": "^4.24.14",
+    "prisma": "^7.8.0",
     "react": "latest",
     "react-chartjs-2": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "sqlite3": "^6.0.1"
   },
   "devDependencies": {
     "@types/cesium": "^1.67.14",
     "@types/node": "^25.5.1",
     "@types/react": "^19.2.14",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^3.4.19",
     "typescript": "^6.0.2"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

@@ -1,5 +1,5 @@
-import VoicesPage from '../../legacy-pages/voices';
+import VoicesClient from './VoicesClient';
 
 export default function Page() {
-  return <VoicesPage />;
+  return <VoicesClient />;
 }

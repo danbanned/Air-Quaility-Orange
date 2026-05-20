@@ -27,7 +27,25 @@
   transition: transform 0.3s;
 }
 
-.story-card:hover .story-image img {
+.story-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.story-image-initials {
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  user-select: none;
+}
+
+.story-card:hover .story-image img,
+.story-card:hover .story-image-placeholder {
   transform: scale(1.05);
 }
 

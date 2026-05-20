@@ -1,0 +1,9 @@
+{
+  "id": "layout-2-compact",
+  "name": "Compact Layout",
+  "description": "Streamlined design with stacked stats, compact feature grid, and minimal sections.",
+  "icon": "📏",
+  "version": 1,
+  "author": "AQO",
+  "sections": ["hero", "stats", "cards", "cta", "stories"]
+}

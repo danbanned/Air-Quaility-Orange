@@ -1,0 +1,307 @@
+.dashboardShell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px 72px;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #3a3a4a;
+}
+
+.dashboardTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #ff6b35;
+}
+
+.dashboardSubtitle {
+  margin-top: 6px;
+  color: #c0c0d0;
+}
+
+.dashboardHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.userEmail {
+  color: #c0c0d0;
+  font-size: 0.95rem;
+}
+
+.tabBar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #3a3a4a;
+}
+
+.activeTab,
+.inactiveTab,
+.primaryAction,
+.dangerPill,
+.successPill {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  font: inherit;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.activeTab {
+  background: #ff6b35;
+  color: #ffffff !important;
+}
+
+.inactiveTab {
+  background: #1e1e2e;
+  color: #c0c0d0 !important;
+}
+
+.primaryAction {
+  background: #ff6b35;
+  color: #ffffff !important;
+}
+
+.dangerPill {
+  background: #b42318;
+  color: #ffffff !important;
+}
+
+.successPill {
+  background: #0d8a5f;
+  color: #ffffff !important;
+}
+
+.secondaryPill {
+  background: #555c7d;
+  color: #ffffff !important;
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-decoration: none;
+  font: inherit;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statusPENDING {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.statusAPPROVED {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.statusREJECTED {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.statusARCHIVED {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.tabBadge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #b42318;
+  color: #ffffff !important;
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabContent {
+  display: grid;
+  gap: 16px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.splitGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.quickActionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.quickActionStack {
+  display: grid;
+  gap: 10px;
+}
+
+.sectionHeadingRow,
+.cardHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.statValue {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ff6b35 !important;
+}
+
+.statLabel {
+  margin-top: 6px;
+  color: #c0c0d0 !important;
+}
+
+.activityType {
+  font-weight: 700;
+  color: #ff6b35 !important;
+}
+
+.activityTime {
+  color: #98a0c2 !important;
+  font-size: 0.9rem;
+}
+
+.subSectionTitle {
+  margin-top: 12px;
+}
+
+.inlineAlert {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 107, 53, 0.12);
+  color: #5e2611;
+}
+
+.centerNotice {
+  padding: 40px 20px;
+  text-align: center;
+  color: #243b53;
+}
+
+.loginShell {
+  min-height: calc(100vh - 160px);
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, #141622, #23283a);
+}
+
+.loginPanel {
+  width: min(420px, 100%);
+  background: #202435;
+  border: 1px solid #3a3f58;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  padding: 32px;
+  color: #f5f7ff;
+}
+
+.loginHeader {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.loginHeader h1 {
+  color: #ff6b35;
+  font-size: 2rem;
+}
+
+.loginHeader p {
+  color: #c0c0d0;
+  margin-top: 8px;
+}
+
+.loginError {
+  background: rgba(180, 35, 24, 0.22);
+  border: 1px solid #b42318;
+  color: #ffd1cd;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.loginForm {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  color: #e8ebfb;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  border: 1px solid #555c7d;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font: inherit;
+  color: #f5f7ff;
+  background: #151828;
+}
+
+.loginHelp {
+  margin-top: 18px;
+  text-align: center;
+  color: #aeb5d3;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 768px) {
+  .dashboardHeader {
+    align-items: stretch;
+  }
+}

@@ -1,5 +1,7 @@
 import '../styles/globals.css';
 import Layout from '../components/Layout/Layout';
+import Providers from './providers';
+import ThemeProvider from '../components/ThemeProvider';
 
 export const metadata = {
   title: 'Air Quality Orange',
@@ -10,7 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Layout>{children}</Layout>
+        <Providers>
+          <ThemeProvider>
+            <Layout>{children}</Layout>
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

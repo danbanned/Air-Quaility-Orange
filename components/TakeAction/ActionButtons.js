@@ -134,7 +134,7 @@ const ActionButtons = ({ userId }) => {
           {events.map(event => (
             <div key={event.id} className="event-item">
               <div className="event-date">
-                <span className="month">{new Date(event.date).toLocaleString('default', { month: 'short' })}</span>
+                <span className="month">{new Date(event.date).toLocaleString('en-US', { month: 'short' })}</span>
                 <span className="day">{new Date(event.date).getDate()}</span>
               </div>
               
