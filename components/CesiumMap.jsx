@@ -1,6 +1,12 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { TOUR_WAYPOINTS, createCinematicTour } from './CinematicTour';
+import TourControls from './TourControls';
+import EnvironmentOverlay from './environment/EnvironmentOverlay';
+import ParticleSystem from './environment/ParticleSystem';
+import { useEnvironmentData } from '@/lib/hooks/useEnvironmentData';
+import { useLocations } from '@/lib/hooks/useLocations';
 import {
   COMMUNITY_SOLUTIONS,
   HEAT_ISLAND_ZONES,
@@ -207,19 +213,88 @@ function createMarkerBillboard({ name, accent, eyebrow }) {
 const CesiumMap = ({
   initialLat = NICETOWN_COORDINATES.lat,
   initialLon = NICETOWN_COORDINATES.lng,
-  initialHeight = 1500,
+  initialHeight = 2200,
   backgroundMode = false,
 }) => {
   const containerRef = useRef(null);
   const viewerRef = useRef(null);
+  const cesiumRef = useRef(null);
+  const tourControllerRef = useRef(null);
+  const managedLocationEntityIdsRef = useRef([]);
   const cleanupRef = useRef([]);
   const orbitStateRef = useRef({ active: false, removeTick: null });
   const isRedirectingRef = useRef(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [usingGoogleTiles, setUsingGoogleTiles] = useState(false);
+  const [isTourPlaying, setIsTourPlaying] = useState(false);
+  const [activeTourWaypoint, setActiveTourWaypoint] = useState(null);
+  const [activeTourStat, setActiveTourStat] = useState(null);
+  const environment = useEnvironmentData(backgroundMode ? null : initialLat, backgroundMode ? null : initialLon);
+  const { locations: managedLocations } = useLocations();
 
   const overlayStats = useMemo(() => AQO_STATS.slice(0, 4), []);
+  const showParticles = !backgroundMode && ((environment.isSummer || (environment.temp ?? 0) >= 28) || environment.pollenLevel === 'high');
+
+  const syncManagedLocations = (viewer, Cesium, locations) => {
+    managedLocationEntityIdsRef.current.forEach((entityId) => {
+      const entity = viewer.entities.getById(entityId);
+      if (entity) {
+        viewer.entities.remove(entity);
+      }
+    });
+    managedLocationEntityIdsRef.current = [];
+
+    const reservedNames = new Set([
+      ...POLLUTION_SOURCES.map((item) => item.name.toLowerCase()),
+      ...COMMUNITY_SOLUTIONS.map((item) => item.name.toLowerCase()),
+    ]);
+
+    locations.forEach((location) => {
+      if (!location?.name || reservedNames.has(location.name.toLowerCase())) {
+        return;
+      }
+
+      const isPollution = location.type === 'pollution';
+      const accent = isPollution ? '#FF5A4F' : '#40C97C';
+      const eyebrow = isPollution ? 'Admin-managed pollution point' : 'Admin-managed solution point';
+      const entityId = `managed-location-${location.id}`;
+
+      viewer.entities.add({
+        id: entityId,
+        name: location.name,
+        position: Cesium.Cartesian3.fromDegrees(location.lng, location.lat, 30),
+        point: {
+          pixelSize: 10,
+          color: Cesium.Color.fromCssColorString(accent),
+          outlineColor: Cesium.Color.WHITE,
+          outlineWidth: 2,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+        billboard: {
+          image: createMarkerBillboard({
+            name: location.name,
+            accent,
+            eyebrow,
+          }),
+          width: 190,
+          height: 52,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -18),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+        description: `
+          <div style="padding: 12px; max-width: 280px; color: #111827;">
+            <h3 style="margin: 0 0 8px; color: ${accent};">${location.name}</h3>
+            <p style="margin: 0 0 8px;">${location.address}</p>
+            <p style="margin: 0;"><strong>Type:</strong> ${location.type}</p>
+          </div>
+        `,
+      });
+
+      managedLocationEntityIdsRef.current.push(entityId);
+    });
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -263,21 +338,21 @@ const CesiumMap = ({
       };
     };
 
-    const flyHome = (viewer, Cesium, duration = 2.4) => {
+    const flyHome = (viewer, Cesium, duration = 2.4, options = {}) => {
       stopOrbit(Cesium);
       viewer.camera.cancelFlight();
       viewer.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(initialLon, initialLat, initialHeight),
         orientation: {
-          heading: Cesium.Math.toRadians(-18),
-          pitch: Cesium.Math.toRadians(-35),
+          heading: Cesium.Math.toRadians(-12),
+          pitch: Cesium.Math.toRadians(-24),
           roll: 0,
         },
         duration,
         easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
         complete: () => {
-          if (!backgroundMode) {
-            startOrbit(viewer, Cesium, { lng: initialLon, lat: initialLat }, initialHeight * 1.15);
+          if (!backgroundMode && options.orbitAfterArrival) {
+            startOrbit(viewer, Cesium, { lng: initialLon, lat: initialLat }, initialHeight * 1.22);
           }
         },
       });
@@ -442,6 +517,8 @@ const CesiumMap = ({
           Cesium.GoogleMaps.defaultApiKey = googleMapsApiKey;
         }
 
+        cesiumRef.current = Cesium;
+
         const viewer = new Cesium.Viewer(containerRef.current, {
           baseLayerPicker: false,
           geocoder: false,
@@ -459,31 +536,33 @@ const CesiumMap = ({
         });
 
         viewerRef.current = viewer;
+        viewer.resolutionScale = Math.min(window.devicePixelRatio || 1, 1.5);
 
         viewer.scene.globe.depthTestAgainstTerrain = false;
         viewer.scene.globe.enableLighting = true;
         viewer.scene.globe.dynamicAtmosphereLighting = true;
         viewer.scene.globe.dynamicAtmosphereLightingFromSun = false;
-        viewer.scene.fog.enabled = true;
-        viewer.scene.fog.density = backgroundMode ? 0.00015 : 0.00022;
-        viewer.scene.fog.minimumBrightness = backgroundMode ? 0.35 : 0.18;
-        viewer.scene.highDynamicRange = true;
+        viewer.scene.fog.enabled = !backgroundMode;
+        viewer.scene.fog.density = backgroundMode ? 0.0 : 0.00003;
+        viewer.scene.fog.minimumBrightness = backgroundMode ? 1.0 : 0.84;
+        viewer.scene.highDynamicRange = false;
         viewer.scene.skyAtmosphere.show = true;
         viewer.scene.postProcessStages.fxaa.enabled = true;
+        viewer.scene.globe.maximumScreenSpaceError = 0.8;
 
         if (viewer.scene.postProcessStages.bloom) {
-          viewer.scene.postProcessStages.bloom.enabled = true;
+          viewer.scene.postProcessStages.bloom.enabled = false;
           viewer.scene.postProcessStages.bloom.uniforms.glowOnly = false;
-          viewer.scene.postProcessStages.bloom.uniforms.delta = 0.8;
-          viewer.scene.postProcessStages.bloom.uniforms.sigma = 2.4;
-          viewer.scene.postProcessStages.bloom.uniforms.stepSize = 3.0;
+          viewer.scene.postProcessStages.bloom.uniforms.delta = 0.25;
+          viewer.scene.postProcessStages.bloom.uniforms.sigma = 1.1;
+          viewer.scene.postProcessStages.bloom.uniforms.stepSize = 1.0;
         }
 
         if (viewer.scene.postProcessStages.ambientOcclusion) {
-          viewer.scene.postProcessStages.ambientOcclusion.enabled = !backgroundMode;
-          viewer.scene.postProcessStages.ambientOcclusion.uniforms.intensity = 3.0;
-          viewer.scene.postProcessStages.ambientOcclusion.uniforms.bias = 0.15;
-          viewer.scene.postProcessStages.ambientOcclusion.uniforms.lengthCap = 0.45;
+          viewer.scene.postProcessStages.ambientOcclusion.enabled = false;
+          viewer.scene.postProcessStages.ambientOcclusion.uniforms.intensity = 1.2;
+          viewer.scene.postProcessStages.ambientOcclusion.uniforms.bias = 0.1;
+          viewer.scene.postProcessStages.ambientOcclusion.uniforms.lengthCap = 0.22;
         }
 
         viewer.scene.screenSpaceCameraController.enableCollisionDetection = true;
@@ -493,6 +572,7 @@ const CesiumMap = ({
         viewer.scene.screenSpaceCameraController.enableLook = !backgroundMode;
         viewer.scene.screenSpaceCameraController.enableTranslate = !backgroundMode;
         viewer.scene.screenSpaceCameraController.enableZoom = true;
+        viewer.scene.screenSpaceCameraController.enableRotate = true;
         viewer.scene.screenSpaceCameraController.inertiaSpin = 0.9;
         viewer.scene.screenSpaceCameraController.inertiaTranslate = 0.9;
         viewer.scene.screenSpaceCameraController.inertiaZoom = 0.85;
@@ -500,8 +580,8 @@ const CesiumMap = ({
         viewer.camera.setView({
           destination: Cesium.Cartesian3.fromDegrees(initialLon, initialLat, initialHeight),
           orientation: {
-            heading: Cesium.Math.toRadians(-18),
-            pitch: Cesium.Math.toRadians(-35),
+            heading: Cesium.Math.toRadians(-12),
+            pitch: Cesium.Math.toRadians(-24),
             roll: 0,
           },
         });
@@ -609,6 +689,14 @@ const CesiumMap = ({
         if (!backgroundMode) {
           addNeighborhoodFeatures(viewer, Cesium);
           addStatsEntities(viewer, Cesium);
+          syncManagedLocations(viewer, Cesium, managedLocations);
+          tourControllerRef.current = createCinematicTour({
+            viewer,
+            Cesium,
+            onWaypointChange: setActiveTourWaypoint,
+            onStatsChange: setActiveTourStat,
+            onPlayingChange: setIsTourPlaying,
+          });
 
           const clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
           clickHandler.setInputAction((movement) => {
@@ -620,7 +708,7 @@ const CesiumMap = ({
           registerCleanup(() => clickHandler.destroy());
         }
 
-        flyHome(viewer, Cesium, backgroundMode ? 0 : 2.6);
+        flyHome(viewer, Cesium, backgroundMode ? 0 : 2.6, { orbitAfterArrival: backgroundMode });
         if (backgroundMode) {
           startOrbit(viewer, Cesium, { lng: initialLon, lat: initialLat }, initialHeight * 2.4);
         }
@@ -646,17 +734,100 @@ const CesiumMap = ({
       });
       cleanupRef.current = [];
 
+      if (tourControllerRef.current) {
+        tourControllerRef.current.stopTour();
+      }
+      tourControllerRef.current = null;
+
       if (viewerRef.current && !viewerRef.current.isDestroyed()) {
         try {
-          stopOrbit(window.Cesium);
+          stopOrbit(cesiumRef.current || window.Cesium);
         } catch (orbitError) {
           console.warn('Orbit cleanup error:', orbitError);
         }
         viewerRef.current.destroy();
       }
       viewerRef.current = null;
+      cesiumRef.current = null;
+      managedLocationEntityIdsRef.current = [];
     };
   }, [backgroundMode, initialHeight, initialLat, initialLon]);
+
+  useEffect(() => {
+    if (!viewerRef.current || !cesiumRef.current || backgroundMode) {
+      return;
+    }
+
+    syncManagedLocations(viewerRef.current, cesiumRef.current, managedLocations);
+  }, [backgroundMode, managedLocations]);
+
+  useEffect(() => {
+    if (!viewerRef.current || !cesiumRef.current || backgroundMode || environment.aqi == null) {
+      return;
+    }
+
+    const viewer = viewerRef.current;
+    const fogDensity = Math.min(0.00012, Math.max(0.00001, Number(environment.aqi) / 900000));
+    viewer.scene.fog.enabled = true;
+    viewer.scene.fog.density = fogDensity;
+    viewer.scene.fog.minimumBrightness = environment.aqi >= 100 ? 0.76 : 0.86;
+  }, [backgroundMode, environment.aqi]);
+
+  const handleStopTour = () => {
+    if (!tourControllerRef.current) {
+      return;
+    }
+    tourControllerRef.current.stopTour();
+    setActiveTourWaypoint(null);
+    setActiveTourStat(null);
+  };
+
+  const handleStartTour = async () => {
+    if (!viewerRef.current || !cesiumRef.current || !tourControllerRef.current) {
+      return;
+    }
+
+    const viewer = viewerRef.current;
+    viewer.scene.screenSpaceCameraController.enableRotate = true;
+    viewer.scene.screenSpaceCameraController.enableTranslate = true;
+    viewer.scene.screenSpaceCameraController.enableZoom = true;
+    viewer.scene.screenSpaceCameraController.enableTilt = true;
+    viewer.scene.screenSpaceCameraController.enableLook = true;
+
+    await tourControllerRef.current.startTour();
+  };
+
+  const handleFreeRoam = () => {
+    handleStopTour();
+    if (!viewerRef.current) {
+      return;
+    }
+
+    const controller = viewerRef.current.scene.screenSpaceCameraController;
+    controller.enableRotate = true;
+    controller.enableTranslate = true;
+    controller.enableZoom = true;
+    controller.enableTilt = true;
+    controller.enableLook = true;
+  };
+
+  const handleRecenter = () => {
+    if (!viewerRef.current || !cesiumRef.current) {
+      return;
+    }
+
+    handleStopTour();
+    viewerRef.current.camera.flyTo({
+      destination: cesiumRef.current.Cartesian3.fromDegrees(initialLon, initialLat, 420),
+      orientation: {
+        heading: cesiumRef.current.Math.toRadians(-18),
+        pitch: cesiumRef.current.Math.toRadians(-28),
+        roll: 0,
+      },
+      duration: 1.6,
+      easingFunction: cesiumRef.current.EasingFunction.QUADRATIC_IN_OUT,
+    });
+  };
 
   if (error && !backgroundMode) {
     return (
@@ -673,19 +844,48 @@ const CesiumMap = ({
   return (
     <div className={`aqo-map-shell${backgroundMode ? ' aqo-map-shell-background' : ''}`}>
       <div ref={containerRef} className="aqo-cesium-container" />
+      <ParticleSystem active={showParticles} intensity={environment.pollenLevel} />
 
       {!backgroundMode && (
         <>
           <div className="aqo-map-topbar">
             <div>
-              <h1>Nicetown, Philadelphia</h1>
-              <p>Environmental justice map focused on one neighborhood, not the whole globe.</p>
+              <h1>AQO Environmental Justice Tour</h1>
+              <p>Nicetown and Hunting Park with guided stops, free roam, and Philly-only performance bounds.</p>
             </div>
             <div className="aqo-map-badges">
               <span>{usingGoogleTiles ? 'Google Photorealistic 3D' : 'OSM Building Fallback'}</span>
-              <span>Philly-only camera bounds</span>
+              <span>Free roam + cinematic tour</span>
             </div>
           </div>
+
+          {isLoaded && (
+            <TourControls
+              onStartTour={handleStartTour}
+              onStopTour={handleStopTour}
+              isTourPlaying={isTourPlaying}
+              onFreeRoam={handleFreeRoam}
+              onRecenter={handleRecenter}
+            />
+          )}
+
+          {activeTourStat && (
+            <div className="aqo-tour-stat-popover">
+              <strong>{activeTourStat.label}</strong>
+              <span>{activeTourStat.description}</span>
+              <small>{activeTourStat.comparison}</small>
+            </div>
+          )}
+
+          {isTourPlaying && activeTourWaypoint && (
+            <div className="aqo-tour-waypoint">
+              <div className="aqo-tour-waypoint-index">
+                Tour stop {activeTourWaypoint.id}/{TOUR_WAYPOINTS.length}
+              </div>
+              <div className="aqo-tour-waypoint-title">{activeTourWaypoint.name}</div>
+              <p>{activeTourWaypoint.description}</p>
+            </div>
+          )}
 
           <div className="aqo-map-stats-panel">
             <h2>AQO Neighborhood Impact</h2>
@@ -700,11 +900,21 @@ const CesiumMap = ({
             </div>
           </div>
 
+          <EnvironmentOverlay
+            aqi={environment.aqi}
+            temp={environment.temp}
+            pollenLevel={environment.pollenLevel}
+            weatherDescription={environment.weatherDescription}
+            isLoading={environment.loading}
+            error={environment.error}
+          />
+
           <div className="aqo-map-legend">
             <div><span className="aqo-map-dot aqo-map-dot-pollution" /> Pollution sources</div>
             <div><span className="aqo-map-dot aqo-map-dot-solution" /> Community solutions</div>
             <div><span className="aqo-map-dot aqo-map-dot-heat" /> Heat islands</div>
             <div><span className="aqo-map-dot aqo-map-dot-park" /> Nicetown Park</div>
+            <div><span className="aqo-map-dot aqo-map-dot-managed" /> Admin-managed locations</div>
           </div>
 
           {!isLoaded && !error && (

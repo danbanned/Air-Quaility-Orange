@@ -165,6 +165,148 @@ body {
   backdrop-filter: blur(14px);
 }
 
+.aqo-tour-controls {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  z-index: 13;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: min(760px, calc(100% - 36px));
+  transform: translateX(-50%);
+  padding: 12px 14px;
+  border: 1px solid rgba(226, 212, 176, 0.18);
+  border-radius: 999px;
+  background: rgba(4, 8, 16, 0.78);
+  backdrop-filter: blur(14px);
+}
+
+.aqo-tour-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: rgba(247, 241, 227, 0.12);
+  color: #f7f1e3;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.aqo-tour-button:hover {
+  transform: scale(1.02);
+  background: rgba(247, 241, 227, 0.18);
+}
+
+.aqo-tour-button-primary {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.aqo-tour-button-primary:hover {
+  background: #e55a27;
+}
+
+.aqo-tour-button-stop {
+  background: #dc2626;
+  color: #fff;
+}
+
+.aqo-tour-button-stop:hover {
+  background: #b91c1c;
+}
+
+.aqo-tour-button-icon {
+  background: rgba(59, 130, 246, 0.9);
+  color: #fff;
+}
+
+.aqo-tour-button-icon:hover {
+  background: rgba(37, 99, 235, 1);
+}
+
+.aqo-tour-status {
+  color: #f7f1e3;
+  font-size: 0.84rem;
+}
+
+.aqo-tour-hint {
+  width: 100%;
+  text-align: center;
+  color: rgba(247, 241, 227, 0.7);
+  font-size: 0.75rem;
+}
+
+.aqo-tour-stat-popover {
+  position: absolute;
+  top: 112px;
+  left: 50%;
+  z-index: 13;
+  display: grid;
+  gap: 4px;
+  min-width: 260px;
+  max-width: min(420px, calc(100% - 36px));
+  transform: translateX(-50%);
+  padding: 16px 18px;
+  border-left: 4px solid #ff6b35;
+  border-radius: 16px;
+  background: rgba(4, 8, 16, 0.88);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.aqo-tour-stat-popover strong {
+  color: #ff8c5a;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.aqo-tour-stat-popover span {
+  color: #f7f1e3;
+  font-size: 0.94rem;
+}
+
+.aqo-tour-stat-popover small {
+  color: rgba(247, 241, 227, 0.68);
+  font-size: 0.8rem;
+}
+
+.aqo-tour-waypoint {
+  position: absolute;
+  left: 50%;
+  bottom: 108px;
+  z-index: 13;
+  width: min(520px, calc(100% - 36px));
+  transform: translateX(-50%);
+  padding: 14px 16px;
+  border: 1px solid rgba(226, 212, 176, 0.18);
+  border-radius: 18px;
+  background: rgba(4, 8, 16, 0.82);
+  backdrop-filter: blur(14px);
+  text-align: center;
+}
+
+.aqo-tour-waypoint-index {
+  color: #ff8c5a;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aqo-tour-waypoint-title {
+  margin-top: 4px;
+  color: #f7f1e3;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.aqo-tour-waypoint p {
+  margin-top: 6px;
+  color: rgba(247, 241, 227, 0.76);
+  font-size: 0.86rem;
+}
+
 .aqo-map-legend > div {
   display: flex;
   align-items: center;
@@ -192,6 +334,10 @@ body {
 
 .aqo-map-dot-park {
   background: #ff6b35;
+}
+
+.aqo-map-dot-managed {
+  background: #22c55e;
 }
 
 .aqo-map-loading,
@@ -227,6 +373,102 @@ body {
   animation: aqo-spin 1s linear infinite;
 }
 
+.aqo-environment-overlay {
+  position: absolute;
+  top: 120px;
+  right: 18px;
+  z-index: 12;
+  width: min(280px, calc(100% - 36px));
+  padding: 14px 16px;
+  border: 1px solid rgba(226, 212, 176, 0.18);
+  border-radius: 18px;
+  background: rgba(4, 8, 16, 0.82);
+  backdrop-filter: blur(14px);
+}
+
+.aqo-environment-overlay h4 {
+  margin: 0 0 10px;
+  color: #ff8c5a;
+  font-size: 0.95rem;
+}
+
+.aqo-environment-overlay p {
+  color: rgba(247, 241, 227, 0.72);
+  font-size: 0.8rem;
+}
+
+.aqo-environment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.aqo-environment-grid div {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(247, 241, 227, 0.06);
+}
+
+.aqo-environment-grid span {
+  color: rgba(247, 241, 227, 0.64);
+  font-size: 0.72rem;
+}
+
+.aqo-environment-grid strong {
+  color: #f7f1e3;
+  font-size: 0.92rem;
+}
+
+.aqo-particle-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.aqo-particle {
+  position: absolute;
+  bottom: -10%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 230, 179, 0.46);
+  filter: blur(1px);
+  animation-name: aqo-float-particle;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes aqo-float-particle {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.8);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.7;
+  }
+
+  to {
+    transform: translate3d(30px, -110vh, 0) scale(1.3);
+    opacity: 0;
+  }
+}
+
+.aqo-error-boundary {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: #050912;
+  color: #f7f1e3;
+  text-align: center;
+}
+
 @keyframes aqo-spin {
   to {
     transform: rotate(360deg);
@@ -248,12 +490,41 @@ body {
     bottom: 18px;
   }
 
+  .aqo-environment-overlay {
+    top: auto;
+    right: 18px;
+    bottom: 184px;
+    left: 18px;
+    width: auto;
+  }
+
   .aqo-map-stats-panel {
     left: 18px;
     right: 18px;
-    bottom: 144px;
+    bottom: 184px;
     width: auto;
   }
+
+  .aqo-tour-controls {
+    bottom: 18px;
+    border-radius: 24px;
+  }
+
+  .aqo-tour-waypoint {
+    bottom: 154px;
+  }
+}
+
+.map-page::after {
+  content: '';
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.32), transparent);
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* Admin contrast and inline public-page controls */

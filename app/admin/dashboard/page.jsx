@@ -206,6 +206,7 @@ export default function AdminDashboardPage() {
               <Link href="/admin/dashboard#stories" className={styles.primaryAction}>Manage Stories</Link>
               <Link href="/admin/dashboard#events" className={styles.primaryAction}>Manage Events</Link>
               <Link href="/admin/dashboard#opportunities" className={styles.primaryAction}>Manage Opportunities</Link>
+              <Link href="/admin/locations/new" className={styles.primaryAction}>Manage Locations</Link>
             </div>
           </div>
         </div>

@@ -133,3 +133,97 @@ implementation.
   One config item is still on you: your .env.local already has NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, but it is still a placeholder value. Until you replace that with a
   real Google key with the required APIs and billing enabled, the map will intentionally fall back to OSM buildings instead of Google photorealistic tiles. I did
   not add react-intersection-observer or the optional token API route because this integration does not use them.
+
+
+3
+
+Integrated this into the existing Cesium path instead of adding a second map stack.
+
+  The main change is in components/CesiumMap.jsx:1: free roam is now the default on /map, the forced orbit is gone, and the live map has start/stop tour, recenter,
+  waypoint narration, stat popups, and location highlights. I added the reusable tour controller in components/CinematicTour.jsx:1 and the UI controls in
+  components/TourControls.jsx:1. I also updated app/map/page.jsx:1 to wrap the page in the existing map-page shell and added the necessary styling in styles/
+  globals.css:152.
+
+  I deliberately did not add the proposed EnhancedCesiumMap, duplicate Layout, or Bing imagery setup, because the repo already had a working Cesium route,
+  immersive layout handling, and Google/OSM tile fallback logic. Build verification passed with npm run build.
+
+  Try /map now. You should have:
+
+  - free roam immediately on load
+  - Start Cinematic Tour / Stop Tour
+  - recenter control
+  - 9 guided Nicetown/Hunting Park stops with stats and highlights
+  - the sharper, less blurry visual settings from the earlier fix
+
+
+• I fixed the tour in components/CinematicTour.jsx:1.
+
+  What changed:
+
+  - The zoom-out bug was caused by overlapping camera flights. camera.flyTo(...) was being treated like a real awaited promise, so multiple tour steps could stack
+    and fight each other. I replaced that with an explicit promise wrapper using Cesium’s complete and cancel callbacks.
+  - The tour now uses a run token, so stopping or restarting it invalidates old pending steps instead of letting them continue in the background.
+  - I slowed the whole tour down by increasing waypoint durations and the pause between stops.
+  - I rebased the guided stops onto the existing coordinates already defined in utils/mapUtils.js:1 for Roosevelt Extension, Midvale, Wayne Junction, Furtick
+    Farms, and the Hunting Park heat zone, so they stay aligned with the live map data instead of drifting outside the intended footprint.
+  - I also softened the flight path with a safer maximumHeight and less aggressive easing so the camera movement feels steadier.
+
+  npm run build passes.
+
+  Try the tour again on /map. It should stay inside Nicetown/Hunting Park, move slower, and stop doing the “zoomed out of Earth” jump. If one specific stop still
+  feels wrong, tell me the tour stop name and I’ll retune just that waypoint.
+
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+• Integrated this into the existing app instead of creating a parallel map stack.
+
+  What changed:
+
+  - Added reusable Google-backed services and routes for geocoding, place details, and environment data:
+    lib/services/geocoding.js:1,
+    lib/services/places.js:1,
+    lib/services/environment.js:1,
+    app/api/geocode/route.js:1,
+    app/api/place-details/route.js:1,
+    app/api/aqi-weather/route.js:1.
+  - Added global state and cached hooks for environment and locations:
+    lib/store/environmentStore.js:1,
+    lib/hooks/useEnvironmentData.js:1,
+    lib/hooks/useMap.js:1,
+    lib/hooks/useGeocode.js:1,
+    lib/hooks/usePlaceDetails.js:1,
+    lib/hooks/useLocations.js:1.
+  - Extended the live Cesium map rather than replacing it:
+    components/CesiumMap.jsx:1 now consumes live environment data, adjusts fog from AQI, shows a live environment overlay, renders particle effects for hotter/
+    high-pollen conditions, and adds admin-managed DB locations into the scene alongside the existing static AQO markers.
+  - Added environment and resilience UI:
+    components/environment/EnvironmentOverlay.jsx:1,
+    components/environment/ParticleSystem.jsx:1,
+    components/ErrorBoundary.jsx:1,
+    and wrapped /map with the error boundary in app/map/page.jsx:1.
+  - Added DB-backed location management:
+    prisma/schema.prisma:89 now includes Location,
+    app/api/locations/route.js:1 and app/api/locations/[id]/route.js:1 provide CRUD,
+    and app/admin/locations/new/page.jsx:1 gives admins a geocode-assisted creation flow. I also linked it from app/admin/dashboard/page.jsx:1.
+
+  Verification:
+
+  - Installed zustand and swr.
+  - Ran Prisma migration: 20260520191318_add_locations_and_environment.
+  - Regenerated Prisma client.
+  - Full npm run build passes.
+  - Seed ran successfully after generate.
+
+  Important note:
+
+  - The seed script resets several seeded tables before recreating demo content, and it also populated the new Location table. If you rely on the demo admin
+    account and didn’t set ADMIN_PASSWORD, the current generated seeded admin password is:
+    OW8Nz90mW5RensN6qPLW9t5I6xbihl9Y
+
+  One config note:
+
+  - Your Google APIs are already wired in.
+  - Weather will use OpenWeather only if you add OPENWEATHER_API_KEY to .env.local; otherwise the environment route falls back gracefully for temperature/weather
+    fields.
+
+  If you want next, I can add an /admin/locations edit/list page so admins can update and disable existing map points instead of only creating new ones.

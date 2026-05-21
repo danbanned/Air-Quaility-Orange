@@ -71,6 +71,7 @@ async function main() {
   await prisma.solution.deleteMany({});
   await prisma.event.deleteMany({});
   await prisma.opportunity.deleteMany({});
+  await prisma.location.deleteMany({});
   await prisma.homePageContent.deleteMany({});
   await prisma.systemSetting.deleteMany({});
 
@@ -263,6 +264,75 @@ async function main() {
     ],
   });
 
+  await prisma.location.createMany({
+    data: [
+      {
+        name: 'Roosevelt Extension Roadway',
+        address: 'Roosevelt Blvd & Wissahickon Ave, Philadelphia, PA 19144',
+        lat: 40.02345,
+        lng: -75.15234,
+        type: 'pollution',
+        isActive: true,
+      },
+      {
+        name: 'SEPTA Midvale Natural Gas Plant',
+        address: '4300 Wissahickon Ave, Philadelphia, PA 19129',
+        lat: 40.01678,
+        lng: -75.1589,
+        type: 'pollution',
+        isActive: true,
+      },
+      {
+        name: 'Wayne Junction Rail Station',
+        address: '2900 Windrim Ave, Philadelphia, PA 19132',
+        lat: 40.02123,
+        lng: -75.14876,
+        type: 'pollution',
+        isActive: true,
+      },
+      {
+        name: 'Former PES Refinery Site',
+        address: '3144 W Passyunk Ave, Philadelphia, PA 19145',
+        lat: 40.01789,
+        lng: -75.16234,
+        type: 'pollution',
+        isActive: true,
+      },
+      {
+        name: 'Furtick Farms',
+        address: '200 E Wyoming Ave, Philadelphia, PA 19120',
+        lat: 40.02234,
+        lng: -75.15123,
+        type: 'solution',
+        isActive: true,
+      },
+      {
+        name: 'Hunting Park Community Garden',
+        address: '1100 W Hunting Park Ave, Philadelphia, PA 19140',
+        lat: 40.01876,
+        lng: -75.15789,
+        type: 'solution',
+        isActive: true,
+      },
+      {
+        name: 'Tree Planting Site - Diamond Street',
+        address: 'Diamond St & N 15th St, Philadelphia, PA 19121',
+        lat: 40.02045,
+        lng: -75.14987,
+        type: 'solution',
+        isActive: true,
+      },
+      {
+        name: 'GSI Stormwater Project',
+        address: 'Nicetown, Philadelphia, PA 19140',
+        lat: 40.01912,
+        lng: -75.15567,
+        type: 'solution',
+        isActive: true,
+      },
+    ],
+  });
+
   await prisma.opportunity.createMany({
     data: [
       {
@@ -315,3 +385,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+  
