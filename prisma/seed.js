@@ -1,12 +1,16 @@
+prisma/seed.js << 'EOF'
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
+const { createClient } = require('@libsql/client');
+const { PrismaLibSql } = require('@prisma/adapter-libsql');
 const { PrismaClient } = require('@prisma/client');
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL || 'file:./prisma/dev.db',
+const libsql = createClient({
+  url: process.env.TURSO_DATABASE_URL || 'file:./prisma/dev.db',
+  authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
+const adapter = new PrismaLibSql(libsql);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -18,54 +22,30 @@ async function main() {
 
   await prisma.user.upsert({
     where: { email: 'admin@airqualityorange.org' },
-    update: {
-      password,
-      role: 'ADMIN',
-      name: 'AQO Admin',
-      contactInfo: 'admin@airqualityorange.org',
-    },
-    create: {
-      email: 'admin@airqualityorange.org',
-      password,
-      role: 'ADMIN',
-      name: 'AQO Admin',
-      contactInfo: 'admin@airqualityorange.org',
-    },
+    update: { password, role: 'ADMIN', name: 'AQO Admin', contactInfo: 'admin@airqualityorange.org' },
+    create: { email: 'admin@airqualityorange.org', password, role: 'ADMIN', name: 'AQO Admin', contactInfo: 'admin@airqualityorange.org' },
   });
 
   await prisma.user.upsert({
     where: { email: 'assistant@airqualityorange.org' },
-    update: {
-      password: assistantPassword,
-      role: 'ADMIN_ASSISTANT',
-      name: 'AQO Assistant',
-      contactInfo: 'assistant@airqualityorange.org',
-    },
-    create: {
-      email: 'assistant@airqualityorange.org',
-      password: assistantPassword,
-      role: 'ADMIN_ASSISTANT',
-      name: 'AQO Assistant',
-      contactInfo: 'assistant@airqualityorange.org',
-    },
+    update: { password: assistantPassword, role: 'ADMIN_ASSISTANT', name: 'AQO Assistant', contactInfo: 'assistant@airqualityorange.org' },
+    create: { email: 'assistant@airqualityorange.org', password: assistantPassword, role: 'ADMIN_ASSISTANT', name: 'AQO Assistant', contactInfo: 'assistant@airqualityorange.org' },
   });
 
   await prisma.user.upsert({
     where: { email: 'user@airqualityorange.org' },
-    update: {
-      password: userPassword,
-      role: 'USER',
-      name: 'AQO Community User',
-      contactInfo: 'user@airqualityorange.org',
-    },
-    create: {
-      email: 'user@airqualityorange.org',
-      password: userPassword,
-      role: 'USER',
-      name: 'AQO Community User',
-      contactInfo: 'user@airqualityorange.org',
-    },
+    update: { password: userPassword,
+       role: 'USER',
+        name: 'AQO Community User',
+         contactInfo: 'user@airqualityorange.org' },
+
+    create: { email: 'user@airqualityorange.org',
+       password: userPassword,
+        role: 'USER',
+         name: 'AQO Community User',
+          contactInfo: 'user@airqualityorange.org' },
   });
+}
 
   await prisma.heroSlide.deleteMany({});
   await prisma.solution.deleteMany({});
