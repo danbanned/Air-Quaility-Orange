@@ -11,6 +11,8 @@ import LayoutCompact from '@/components/homepageLayouts/LayoutCompact';
 import LayoutStoryFocused from '@/components/homepageLayouts/LayoutStoryFocused';
 import LayoutDataHeavy from '@/components/homepageLayouts/LayoutDataHeavy';
 
+export const dynamic = 'force-dynamic';
+
 const layoutMap = {
   'layout-1-default': LayoutDefault,
   'layout-2-compact': LayoutCompact,
