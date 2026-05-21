@@ -227,3 +227,6 @@ Integrated this into the existing Cesium path instead of adding a second map sta
     fields.
 
   If you want next, I can add an /admin/locations edit/list page so admins can update and disable existing map points instead of only creating new ones.
+
+
+  install later npx plugins add vercel/vercel-plugin
