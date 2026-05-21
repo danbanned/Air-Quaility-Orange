@@ -6,7 +6,7 @@
     "postinstall": "prisma generate",
     "copy-cesium": "cpy \"node_modules/cesium/Build/Cesium/**/*\" public/cesium --parents",
     "dev": "npm run copy-cesium && next dev",
-    "build": "prisma generate && npm run copy-cesium && next build",
+    "build": "npx prisma generate && npm run copy-cesium && next build",
     "start": "next start",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
