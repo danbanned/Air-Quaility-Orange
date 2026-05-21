@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
     "copy-cesium": "cpy \"node_modules/cesium/Build/Cesium/**/*\" public/cesium --parents",
     "dev": "npm run copy-cesium && next dev",
-    "build": "npm run copy-cesium && next build --webpack",
+    "build": "prisma generate && npm run copy-cesium && next build",
     "start": "next start",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
