@@ -14,13 +14,11 @@
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
-    "@prisma/adapter-better-sqlite3": "^7.8.0",
     "@prisma/adapter-libsql": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@react-google-maps/api": "latest",
     "axios": "latest",
     "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^12.9.0",
     "cesium": "^1.140.0",
     "chart.js": "latest",
     "next": "latest",
