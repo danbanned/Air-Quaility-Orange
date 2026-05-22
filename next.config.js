@@ -13,9 +13,4 @@ module.exports = {
     TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
     TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
   },
-  turbopack: {
-    resolveAlias: {
-      cesium: { browser: 'cesium/Build/Cesium/Cesium.js' },
-    },
-  },
 };
