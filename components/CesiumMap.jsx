@@ -71,13 +71,14 @@ async function loadCesiumRuntime() {
     throw new Error('Cesium can only load in the browser.');
   }
 
-    window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium';
+    window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.140.0/Build/Cesium';
+    
 
   if (!document.getElementById('cesium-widgets-css')) {
     const link = document.createElement('link');
     link.id = 'cesium-widgets-css';
     link.rel = 'stylesheet';
-    link.href = 'https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css';
+    link.href = 'https://cesium.com/downloads/cesiumjs/releases/1.140.0/Build/Cesium/Widgets/widgets.css';
     document.head.appendChild(link);
   }
 
