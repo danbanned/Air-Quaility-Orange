@@ -71,18 +71,31 @@ async function loadCesiumRuntime() {
     throw new Error('Cesium can only load in the browser.');
   }
 
-    window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium';
+  window.CESIUM_BASE_URL = '/cesium';
 
   if (!document.getElementById('cesium-widgets-css')) {
     const link = document.createElement('link');
     link.id = 'cesium-widgets-css';
     link.rel = 'stylesheet';
-    link.href = 'https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css';
+    link.href = '/cesium/Widgets/widgets.css';
     document.head.appendChild(link);
   }
 
-  const Cesium = await import('cesium');
-  return Cesium;
+  await new Promise((resolve, reject) => {
+    if (window.Cesium) return resolve();
+    if (document.getElementById('cesium-script')) {
+      document.getElementById('cesium-script').addEventListener('load', resolve);
+      return;
+    }
+    const script = document.createElement('script');
+    script.id = 'cesium-script';
+    script.src = '/cesium/Cesium.js';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+
+  return window.Cesium;
 }
 
 function clamp(value, min, max) {
