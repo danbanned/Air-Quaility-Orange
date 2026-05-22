@@ -71,13 +71,13 @@ async function loadCesiumRuntime() {
     throw new Error('Cesium can only load in the browser.');
   }
 
-  window.CESIUM_BASE_URL = '/cesium';
+    window.CESIUM_BASE_URL = 'https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium';
 
   if (!document.getElementById('cesium-widgets-css')) {
     const link = document.createElement('link');
     link.id = 'cesium-widgets-css';
     link.rel = 'stylesheet';
-    link.href = '/cesium/Widgets/widgets.css';
+    link.href = 'https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css';
     document.head.appendChild(link);
   }
 
@@ -499,7 +499,7 @@ const CesiumMap = ({
 
     const initialize = async () => {
       try {
-        const Cesium = await withTimeout(loadCesiumRuntime(), 10000, 'Cesium runtime');
+        const Cesium = await withTimeout(loadCesiumRuntime(), 30000, 'Cesium runtime');
 
         if (!isMounted || !containerRef.current || viewerRef.current) {
           return;
