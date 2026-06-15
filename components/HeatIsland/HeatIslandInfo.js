@@ -90,7 +90,7 @@ const HeatIslandInfo = ({ userId }) => {
       </div>
 
       <div className="solutions-section">
-        <h3>Community Solutions in Action</h3>
+        <h3> in Action</h3>
         <div className="solutions-grid">
           {solutions.map((solution, index) => (
             <div key={index} className="solution-card">

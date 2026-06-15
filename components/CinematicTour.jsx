@@ -12,6 +12,7 @@ const MIDVALE_PLANT = POLLUTION_SOURCES.find((item) => item.id === 2);
 const WAYNE_JUNCTION = POLLUTION_SOURCES.find((item) => item.id === 3);
 const FURTICK_FARMS = COMMUNITY_SOLUTIONS.find((item) => item.id === 1);
 const HUNTING_PARK_GARDEN = COMMUNITY_SOLUTIONS.find((item) => item.id === 2);
+const CSI_STORMWATER = COMMUNITY_SOLUTIONS.find((item) => item.id === 4);
 const HUNTING_PARK_HEAT_ZONE = HEAT_ISLAND_ZONES.find((item) => item.id === 1);
 
 export const TOUR_WAYPOINTS = [
@@ -20,8 +21,8 @@ export const TOUR_WAYPOINTS = [
     name: 'Welcome to Nicetown',
     description:
       "This is Nicetown Park, the heart of the community. Let's explore the environmental challenges residents face daily.",
-    location: { lon: NICETOWN_COORDINATES.lng, lat: NICETOWN_COORDINATES.lat, height: 70 },
-    orientation: { heading: -12, pitch: -24, roll: 0 },
+    location: { lon: NICETOWN_COORDINATES.lng, lat: NICETOWN_COORDINATES.lat, height: NICETOWN_COORDINATES.alt },
+    orientation: { heading: -12, pitch: -80, roll: 0 },
     duration: 6.2,
     stat: null,
   },
@@ -30,7 +31,7 @@ export const TOUR_WAYPOINTS = [
     name: 'The Asthma Crisis',
     description:
       'Childhood asthma rates here are 21%, nearly three times the national average. This ZIP code has one of the highest hospitalization rates in Philadelphia.',
-    location: { lon: -75.15485, lat: 40.02078, height: 100 },
+    location: { lat: 40.024338, lon: -75.163767, height: 5 },
     orientation: { heading: 28, pitch: -18, roll: 0 },
     duration: 7.2,
     stat: { label: '21%', description: 'Childhood Asthma Rate', comparison: '3x national average' },
@@ -98,6 +99,21 @@ export const TOUR_WAYPOINTS = [
   },
   {
     id: 7,
+    name: 'CSI Stormwater Project',
+    description:
+      'Green stormwater infrastructure captures runoff, cools streets, and reduces flooding. Each installation is a climate adaptation win for the neighborhood.',
+    location: {
+      lon: CSI_STORMWATER.coordinates.lng,
+      lat: CSI_STORMWATER.coordinates.lat - 0.00018,
+      height: 50,
+    },
+    orientation: { heading: 0, pitch: -20, roll: 0 },
+    duration: 7,
+    stat: { label: '35%', description: 'Runoff Reduction', comparison: 'Green infrastructure in action' },
+    highlight: { lon: CSI_STORMWATER.coordinates.lng, lat: CSI_STORMWATER.coordinates.lat },
+  },
+  {
+    id: 8,
     name: 'Hunting Park Heat Island',
     description:
       'This area runs 8 to 12 degrees hotter than nearby neighborhoods because of dark surfaces and limited tree canopy.',
@@ -112,7 +128,7 @@ export const TOUR_WAYPOINTS = [
     highlight: { lon: HUNTING_PARK_HEAT_ZONE.coordinates.lng, lat: HUNTING_PARK_HEAT_ZONE.coordinates.lat },
   },
   {
-    id: 8,
+    id: 9,
     name: 'The Cancer Disparity',
     description:
       'This disparity did not happen by accident. Redlining and industrial zoning shaped who lives closest to environmental risk.',
@@ -123,7 +139,7 @@ export const TOUR_WAYPOINTS = [
     redliningOverlay: true,
   },
   {
-    id: 9,
+    id: 10,
     name: 'The Path Forward',
     description:
       'Tree planting, green infrastructure, and community-led projects show that neighborhood-scale climate and health solutions work.',
@@ -162,7 +178,6 @@ function flyCamera(viewer, Cesium, waypoint) {
       },
       duration: waypoint.duration,
       easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
-      maximumHeight: Math.max(waypoint.location.height + 160, 520),
       complete: done,
       cancel: done,
     });

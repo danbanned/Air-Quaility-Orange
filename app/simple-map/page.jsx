@@ -58,39 +58,6 @@ const SimpleMapPage = () => {
         </p>
       </div>
 
-      {/* Legend */}
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        right: '20px',
-        zIndex: 10,
-        background: 'rgba(5,9,18,0.85)',
-        backdropFilter: 'blur(10px)',
-        padding: '16px',
-        borderRadius: '12px',
-        border: '1px solid rgba(255,255,255,0.1)',
-        pointerEvents: 'none'
-      }}>
-        <h4 style={{ color: '#e2d4b0', marginBottom: '12px', fontSize: '12px' }}>Map Legend</h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', background: '#FF0000', borderRadius: '50%' }}></div>
-            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>Pollution Source</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', background: '#FF6B35', borderRadius: '50%' }}></div>
-            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>Transportation</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', background: '#4CAF50', borderRadius: '50%' }}></div>
-            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>Community Solution</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '12px', height: '12px', background: '#FF6B35', opacity: '0.5' }}></div>
-            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>Nicetown Park (AQO Hub)</span>
-          </div>
-        </div>
-      </div>
 
       {/* The Map */}
       <CesiumMap />

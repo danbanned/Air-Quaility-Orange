@@ -42,6 +42,7 @@ body {
 
 .aqo-map-shell {
   position: relative;
+  left: 60px;
   width: 100%;
   min-height: 100vh;
   background:
@@ -56,7 +57,53 @@ body {
 
 .aqo-cesium-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
+}
+
+/* Flex-column wrapper that holds canvas + panels */
+.aqo-map-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Canvas region – explicit height, relative so loading overlay can be absolute inside */
+.aqo-map-canvas {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Outer panels container – stacks rows vertically */
+.aqo-map-ui-section {
+  display: flex;
+  flex-direction: column;
+  background: #0b1120;
+  color: #e2e8f0;
+  border-top: 2px solid rgba(255, 107, 53, 0.4);
+}
+
+/* Each row shares common padding and a subtle divider */
+.aqo-ui-row {
+  padding: 1rem 2rem;
+}
+
+.aqo-ui-row + .aqo-ui-row {
+  border-top: 1px solid rgba(226, 212, 176, 0.07);
+}
+
+/* Stats left, environment right */
+.aqo-ui-row-data {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* Row 3 – Legend: single full-width flex row */
+.aqo-ui-row-legend {
+  background: rgba(0, 0, 0, 0.14);
 }
 
 .aqo-map-topbar {
@@ -102,16 +149,10 @@ body {
 }
 
 .aqo-map-stats-panel {
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  z-index: 12;
-  width: min(360px, calc(100% - 36px));
   padding: 16px 18px;
-  border: 1px solid rgba(226, 212, 176, 0.18);
-  border-radius: 18px;
-  background: rgba(4, 8, 16, 0.82);
-  backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 212, 176, 0.14);
+  border-radius: 14px;
+  background: rgba(4, 8, 16, 0.6);
 }
 
 .aqo-map-stats-panel h2 {
@@ -122,14 +163,14 @@ body {
 
 .aqo-map-stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 
 .aqo-map-stats-grid article {
   display: grid;
-  gap: 3px;
-  padding: 10px 12px;
+  gap: 6px;
+  padding: 14px 16px;
   border-radius: 14px;
   background: rgba(247, 241, 227, 0.06);
 }
@@ -150,53 +191,49 @@ body {
 }
 
 .aqo-map-legend {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  z-index: 12;
-  display: grid;
-  gap: 8px;
-  padding: 14px 16px;
-  border: 1px solid rgba(226, 212, 176, 0.18);
-  border-radius: 18px;
-  background: rgba(4, 8, 16, 0.82);
-  color: rgba(247, 241, 227, 0.82);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  color: rgba(247, 241, 227, 0.75);
   font-size: 0.8rem;
-  backdrop-filter: blur(14px);
+  align-items: center;
 }
 
+/* Sidebar – absolutely positioned on the right edge of the canvas */
 .aqo-tour-controls {
   position: absolute;
-  left: 50%;
-  bottom: 24px;
-  z-index: 13;
+  right: 4.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: min(760px, calc(100% - 36px));
-  transform: translateX(-50%);
-  padding: 12px 14px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 148px;
+  padding: 14px 12px;
   border: 1px solid rgba(226, 212, 176, 0.18);
-  border-radius: 999px;
-  background: rgba(4, 8, 16, 0.78);
-  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  background: rgba(4, 8, 16, 0.82);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .aqo-tour-button {
   border: 0;
-  border-radius: 999px;
-  padding: 10px 16px;
-  background: rgba(247, 241, 227, 0.12);
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: rgba(247, 241, 227, 0.1);
   color: #f7f1e3;
+  font-size: 0.82rem;
+  text-align: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: background 0.18s ease, transform 0.18s ease;
 }
 
 .aqo-tour-button:hover {
-  transform: scale(1.02);
   background: rgba(247, 241, 227, 0.18);
+  transform: translateX(-2px);
 }
 
 .aqo-tour-button-primary {
@@ -232,28 +269,32 @@ body {
 }
 
 .aqo-tour-hint {
-  width: 100%;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(226, 212, 176, 0.1);
   text-align: center;
-  color: rgba(247, 241, 227, 0.7);
-  font-size: 0.75rem;
+  color: rgba(247, 241, 227, 0.48);
+  font-size: 0.68rem;
+  line-height: 1.4;
 }
 
 .aqo-tour-stat-popover {
-  position: absolute;
-  top: 112px;
+  position: fixed;
+  bottom: 2rem;
   left: 50%;
-  z-index: 13;
+  z-index: 50;
   display: grid;
-  gap: 4px;
+  gap: 8px;
   min-width: 260px;
   max-width: min(420px, calc(100% - 36px));
   transform: translateX(-50%);
-  padding: 16px 18px;
+  padding: 18px 20px;
   border-left: 4px solid #ff6b35;
   border-radius: 16px;
   background: rgba(4, 8, 16, 0.88);
   backdrop-filter: blur(14px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+  pointer-events: none;
 }
 
 .aqo-tour-stat-popover strong {
@@ -273,18 +314,19 @@ body {
 }
 
 .aqo-tour-waypoint {
-  position: absolute;
+  position: fixed;
+  bottom: 7rem;
   left: 50%;
-  bottom: 108px;
-  z-index: 13;
+  z-index: 50;
   width: min(520px, calc(100% - 36px));
   transform: translateX(-50%);
-  padding: 14px 16px;
+  padding: 18px 20px;
   border: 1px solid rgba(226, 212, 176, 0.18);
   border-radius: 18px;
   background: rgba(4, 8, 16, 0.82);
   backdrop-filter: blur(14px);
   text-align: center;
+  pointer-events: none;
 }
 
 .aqo-tour-waypoint-index {
@@ -310,7 +352,8 @@ body {
 .aqo-map-legend > div {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 .aqo-map-dot {
@@ -338,6 +381,89 @@ body {
 
 .aqo-map-dot-managed {
   background: #22c55e;
+}
+
+/* Coordinate inspector – shown on click inside the canvas */
+.aqo-coord-inspector {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 15;
+  width: 210px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 107, 53, 0.4);
+  border-radius: 12px;
+  background: rgba(4, 8, 16, 0.92);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #f7f1e3;
+}
+
+.aqo-coord-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ff8c5a;
+  font-weight: 600;
+}
+
+.aqo-coord-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.aqo-coord-row span {
+  color: rgba(247, 241, 227, 0.55);
+  font-size: 0.74rem;
+}
+
+.aqo-coord-row code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: #f7f1e3;
+  letter-spacing: 0.02em;
+}
+
+.aqo-coord-copy {
+  margin-top: 2px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 107, 53, 0.2);
+  color: #ff8c5a;
+  font-size: 0.74rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+
+.aqo-coord-copy:hover {
+  background: rgba(255, 107, 53, 0.35);
+}
+
+.aqo-coord-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 0;
+  background: none;
+  color: rgba(247, 241, 227, 0.4);
+  font-size: 0.78rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.aqo-coord-close:hover {
+  color: #f7f1e3;
+  background: rgba(247, 241, 227, 0.1);
 }
 
 .aqo-map-loading,
@@ -374,16 +500,10 @@ body {
 }
 
 .aqo-environment-overlay {
-  position: absolute;
-  top: 120px;
-  right: 18px;
-  z-index: 12;
-  width: min(280px, calc(100% - 36px));
-  padding: 14px 16px;
-  border: 1px solid rgba(226, 212, 176, 0.18);
-  border-radius: 18px;
-  background: rgba(4, 8, 16, 0.82);
-  backdrop-filter: blur(14px);
+  padding: 16px 18px;
+  border: 1px solid rgba(226, 212, 176, 0.14);
+  border-radius: 14px;
+  background: rgba(4, 8, 16, 0.6);
 }
 
 .aqo-environment-overlay h4 {
@@ -400,14 +520,15 @@ body {
 .aqo-environment-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .aqo-environment-grid div {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 3px;
   padding: 10px 12px;
-  border-radius: 14px;
+  border-radius: 10px;
   background: rgba(247, 241, 227, 0.06);
 }
 
@@ -480,44 +601,37 @@ body {
     right: 18px;
   }
 
-  .aqo-map-stats-grid {
+  .aqo-map-canvas {
+    height: 60vh !important;
+  }
+
+  /* On mobile move the sidebar to bottom-right so it doesn't obscure the map */
+  .aqo-tour-controls {
+    top: auto;
+    bottom: 1rem;
+    right: 0.75rem;
+    transform: none;
+    width: 130px;
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .aqo-ui-row {
+    padding: 0.875rem 1rem;
+  }
+
+  .aqo-ui-row-data {
     grid-template-columns: 1fr;
   }
 
-  .aqo-map-legend {
-    left: 18px;
-    right: 18px;
-    bottom: 18px;
-  }
-
-  .aqo-environment-overlay {
-    top: auto;
-    right: 18px;
-    bottom: 184px;
-    left: 18px;
-    width: auto;
-  }
-
-  .aqo-map-stats-panel {
-    left: 18px;
-    right: 18px;
-    bottom: 184px;
-    width: auto;
-  }
-
-  .aqo-tour-controls {
-    bottom: 18px;
-    border-radius: 24px;
-  }
-
-  .aqo-tour-waypoint {
-    bottom: 154px;
+  .aqo-map-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .map-page::after {
   content: '';
-  position: fixed;
+  position: relative;
   right: 0;
   bottom: 0;
   left: 0;

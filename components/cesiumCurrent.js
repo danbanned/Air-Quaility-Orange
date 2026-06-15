@@ -114,7 +114,7 @@ const CesiumMap = ({
   const [activeSceneLabel, setActiveSceneLabel] = useState('Nicetown Park');
   const [tourDebug, setTourDebug] = useState('idle');
 
-  // Pollution sources in Nicetown
+  //  in Nicetown
   // These are data points that will become red/orange markers on the map
   // Each object connects to the entity creation code below
   const pollutionSources = [

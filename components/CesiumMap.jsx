@@ -226,7 +226,7 @@ function createMarkerBillboard({ name, accent, eyebrow }) {
 const CesiumMap = ({
   initialLat = NICETOWN_COORDINATES.lat,
   initialLon = NICETOWN_COORDINATES.lng,
-  initialHeight = 2200,
+  initialHeight = NICETOWN_COORDINATES.alt,
   backgroundMode = false,
 }) => {
   const containerRef = useRef(null);
@@ -243,6 +243,7 @@ const CesiumMap = ({
   const [isTourPlaying, setIsTourPlaying] = useState(false);
   const [activeTourWaypoint, setActiveTourWaypoint] = useState(null);
   const [activeTourStat, setActiveTourStat] = useState(null);
+  const [clickCoords, setClickCoords] = useState(null);
   const environment = useEnvironmentData(backgroundMode ? null : initialLat, backgroundMode ? null : initialLon);
   const { locations: managedLocations } = useLocations();
 
@@ -579,8 +580,6 @@ const CesiumMap = ({
         }
 
         viewer.scene.screenSpaceCameraController.enableCollisionDetection = true;
-        viewer.scene.screenSpaceCameraController.minimumZoomDistance = backgroundMode ? 900 : 120;
-        viewer.scene.screenSpaceCameraController.maximumZoomDistance = backgroundMode ? 12000 : 18000;
         viewer.scene.screenSpaceCameraController.enableTilt = true;
         viewer.scene.screenSpaceCameraController.enableLook = !backgroundMode;
         viewer.scene.screenSpaceCameraController.enableTranslate = !backgroundMode;
@@ -642,7 +641,7 @@ const CesiumMap = ({
             destination: Cesium.Cartesian3.fromDegrees(
               safeLon,
               safeLat,
-              clamp(cartographic.height, 900, 6000)
+              cartographic.height
             ),
             orientation: {
               heading: viewer.camera.heading,
@@ -716,6 +715,17 @@ const CesiumMap = ({
             const picked = viewer.scene.pick(movement.position);
             if (Cesium.defined(picked) && picked.id) {
               viewer.selectedEntity = picked.id;
+            }
+
+            const cartesian = viewer.scene.pickPosition(movement.position)
+              || viewer.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
+            if (Cesium.defined(cartesian)) {
+              const carto = Cesium.Cartographic.fromCartesian(cartesian);
+              setClickCoords({
+                lat: parseFloat(Cesium.Math.toDegrees(carto.latitude).toFixed(6)),
+                lng: parseFloat(Cesium.Math.toDegrees(carto.longitude).toFixed(6)),
+                alt: Math.round(carto.height),
+              });
             }
           }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
           registerCleanup(() => clickHandler.destroy());
@@ -856,23 +866,49 @@ const CesiumMap = ({
 
   return (
     <div className={`aqo-map-shell${backgroundMode ? ' aqo-map-shell-background' : ''}`}>
-      <div ref={containerRef} className="aqo-cesium-container" />
-      <ParticleSystem active={showParticles} intensity={environment.pollenLevel} />
+      <div className="aqo-map-wrapper">
+        {/* Map canvas area */}
+        <div
+          className={`aqo-map-canvas${backgroundMode ? ' aqo-map-canvas-background' : ''}`}
+          style={{ height: backgroundMode ? '100vh' : '70vh' }}
+        >
+          <div ref={containerRef} className="aqo-cesium-container" />
+          <ParticleSystem active={showParticles} intensity={environment.pollenLevel} />
 
-      {!backgroundMode && (
-        <>
-          <div className="aqo-map-topbar">
-            <div>
-              <h1>AQO Environmental Justice Tour</h1>
-              <p>Nicetown and Hunting Park with guided stops, free roam, and Philly-only performance bounds.</p>
+          {/* Coordinate inspector – click anywhere on the map to see lat/lng */}
+          {!backgroundMode && clickCoords && (
+            <div className="aqo-coord-inspector">
+              <button
+                type="button"
+                className="aqo-coord-close"
+                onClick={() => setClickCoords(null)}
+                title="Dismiss"
+              >✕</button>
+              <div className="aqo-coord-label">Clicked position</div>
+              <div className="aqo-coord-row">
+                <span>Lat</span>
+                <code>{clickCoords.lat}</code>
+              </div>
+              <div className="aqo-coord-row">
+                <span>Lng</span>
+                <code>{clickCoords.lng}</code>
+              </div>
+              <div className="aqo-coord-row">
+                <span>Alt (m)</span>
+                <code>{clickCoords.alt}</code>
+              </div>
+              <button
+                type="button"
+                className="aqo-coord-copy"
+                onClick={() => navigator.clipboard.writeText(
+                  `lat: ${clickCoords.lat}, lng: ${clickCoords.lng}`
+                )}
+              >Copy lat/lng</button>
             </div>
-            <div className="aqo-map-badges">
-              <span>{usingGoogleTiles ? 'Google Photorealistic 3D' : 'OSM Building Fallback'}</span>
-              <span>Free roam + cinematic tour</span>
-            </div>
-          </div>
+          )}
 
-          {isLoaded && (
+          {/* Tour controls sidebar – lives on the right edge of the canvas */}
+          {!backgroundMode && isLoaded && (
             <TourControls
               onStartTour={handleStartTour}
               onStopTour={handleStopTour}
@@ -882,62 +918,74 @@ const CesiumMap = ({
             />
           )}
 
-          {activeTourStat && (
-            <div className="aqo-tour-stat-popover">
-              <strong>{activeTourStat.label}</strong>
-              <span>{activeTourStat.description}</span>
-              <small>{activeTourStat.comparison}</small>
-            </div>
-          )}
-
-          {isTourPlaying && activeTourWaypoint && (
-            <div className="aqo-tour-waypoint">
-              <div className="aqo-tour-waypoint-index">
-                Tour stop {activeTourWaypoint.id}/{TOUR_WAYPOINTS.length}
-              </div>
-              <div className="aqo-tour-waypoint-title">{activeTourWaypoint.name}</div>
-              <p>{activeTourWaypoint.description}</p>
-            </div>
-          )}
-
-          <div className="aqo-map-stats-panel">
-            <h2>AQO Neighborhood Impact</h2>
-            <div className="aqo-map-stats-grid">
-              {overlayStats.map((stat) => (
-                <article key={stat.id}>
-                  <strong style={{ color: stat.color }}>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                  <small>{stat.description}</small>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <EnvironmentOverlay
-            aqi={environment.aqi}
-            temp={environment.temp}
-            pollenLevel={environment.pollenLevel}
-            weatherDescription={environment.weatherDescription}
-            isLoading={environment.loading}
-            error={environment.error}
-          />
-
-          <div className="aqo-map-legend">
-            <div><span className="aqo-map-dot aqo-map-dot-pollution" /> Pollution sources</div>
-            <div><span className="aqo-map-dot aqo-map-dot-solution" /> Community solutions</div>
-            <div><span className="aqo-map-dot aqo-map-dot-heat" /> Heat islands</div>
-            <div><span className="aqo-map-dot aqo-map-dot-park" /> Nicetown Park</div>
-            <div><span className="aqo-map-dot aqo-map-dot-managed" /> Admin-managed locations</div>
-          </div>
-
-          {!isLoaded && !error && (
+          {!backgroundMode && !isLoaded && !error && (
             <div className="aqo-map-loading">
               <div className="aqo-map-spinner" />
               <p>Loading Philadelphia 3D map...</p>
             </div>
           )}
-        </>
-      )}
+        </div>
+
+        {/* UI panels – rendered below the map */}
+        {!backgroundMode && isLoaded && (
+          <div className="aqo-map-ui-section">
+            {/* Stats (left) + Environment (right) */}
+            <div className="aqo-ui-row aqo-ui-row-data">
+              <div className="aqo-map-stats-panel">
+                <h2>AQO Neighborhood Impact</h2>
+                <div className="aqo-map-stats-grid">
+                  {overlayStats.map((stat) => (
+                    <article key={stat.id}>
+                      <strong style={{ color: stat.color }}>{stat.value}</strong>
+                      <span>{stat.label}</span>
+                      <small>{stat.description}</small>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <EnvironmentOverlay
+                aqi={environment.aqi}
+                temp={environment.temp}
+                pollenLevel={environment.pollenLevel}
+                weatherDescription={environment.weatherDescription}
+                isLoading={environment.loading}
+                error={environment.error}
+              />
+            </div>
+
+            {/* Legend */}
+            <div className="aqo-ui-row aqo-ui-row-legend">
+              <div className="aqo-map-legend">
+                <div><span className="aqo-map-dot aqo-map-dot-pollution" />Pollution sources</div>
+                <div><span className="aqo-map-dot aqo-map-dot-solution" />Community solutions</div>
+                <div><span className="aqo-map-dot aqo-map-dot-heat" />Heat islands</div>
+                <div><span className="aqo-map-dot aqo-map-dot-park" />Nicetown Park</div>
+                <div><span className="aqo-map-dot aqo-map-dot-managed" />Admin-managed locations</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tour popups – fixed overlays so they don't block the map permanently */}
+        {!backgroundMode && activeTourStat && (
+          <div className="aqo-tour-stat-popover">
+            <strong>{activeTourStat.label}</strong>
+            <span>{activeTourStat.description}</span>
+            <small>{activeTourStat.comparison}</small>
+          </div>
+        )}
+
+        {!backgroundMode && isTourPlaying && activeTourWaypoint && (
+          <div className="aqo-tour-waypoint">
+            <div className="aqo-tour-waypoint-index">
+              Tour stop {activeTourWaypoint.id}/{TOUR_WAYPOINTS.length}
+            </div>
+            <div className="aqo-tour-waypoint-title">{activeTourWaypoint.name}</div>
+            <p>{activeTourWaypoint.description}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

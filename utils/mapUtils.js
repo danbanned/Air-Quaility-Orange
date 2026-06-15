@@ -2,8 +2,9 @@
 
 // Nicetown Park coordinates
 export const NICETOWN_COORDINATES = {
-  lat: 40.01999,
-  lng: -75.15540
+lat: 40.011575,
+lng: -75.152031,
+  alt: 10000
 };
 
 // Pollution sources
@@ -11,21 +12,21 @@ export const POLLUTION_SOURCES = [
   {
     id: 1,
     name: 'Roosevelt Extension Roadway',
-    coordinates: { lat: 40.02345, lng: -75.15234 },
+    coordinates: { lat: 40.020608, lng: -75.1555 },
     description: 'Major roadway contributing to air pollution',
     type: 'transportation'
   },
   {
     id: 2,
     name: 'SEPTA Midvale Natural Gas Plant',
-    coordinates: { lat: 40.01678, lng: -75.15890 },
+    coordinates: { lat: 40.01815, lng: -75.144094 },
     description: 'Natural gas facility impacting local air quality',
     type: 'industrial'
   },
   {
     id: 3,
     name: 'Wayne Junction Rail Station',
-    coordinates: { lat: 40.02123, lng: -75.14876 },
+    coordinates: { lat: 40.022707, lng: -75.159773 },
     description: 'Rail hub with diesel emissions',
     type: 'transportation'
   },
@@ -43,29 +44,29 @@ export const COMMUNITY_SOLUTIONS = [
   {
     id: 1,
     name: 'Furtick Farms',
-    coordinates: { lat: 40.02234, lng: -75.15123 },
+    coordinates: { lat: 40.01894, lng: -75.156786 },
     description: 'Community farm providing fresh food',
     type: 'garden'
   },
   {
     id: 2,
     name: 'Hunting Park Community Garden',
-    coordinates: { lat: 40.01876, lng: -75.15789 },
+    coordinates: { lat: 40.01815, lng: -75.144094 },
     description: 'Urban garden and community space',
     type: 'garden'
   },
   {
     id: 3,
     name: 'Tree Planting Site - Diamond Street',
-    coordinates: { lat: 40.02045, lng: -75.14987 },
+    coordinates: { lat: 40.018857, lng: -75.156727 },
     description: 'New trees being planted to improve canopy',
     type: 'greenspace'
   },
   {
     id: 4,
-    name: 'GSI Stormwater Project',
-    coordinates: { lat: 40.01912, lng: -75.15567 },
-    description: 'Green stormwater infrastructure project',
+    name: 'CSI Stormwater Project',
+    coordinates: { lat: 40.018755, lng: -75.156376 },
+    description: 'Green stormwater infrastructure installation',
     type: 'infrastructure'
   }
 ];

@@ -37,20 +37,10 @@
   color: var(--aqo-white);
 }
 
-.map-legend {
-  background: var(--aqo-cream);
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
-.map-legend h4 {
-  margin: 0 0 10px 0;
-  color: var(--aqo-orange-dark);
-}
 
 .legend-item {
   display: flex;
-  align-items: center;
+  align-items: re;
   margin: 5px 0;
   font-size: 14px;
 }

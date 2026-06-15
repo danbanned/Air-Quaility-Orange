@@ -66,19 +66,7 @@ const MapComponent = ({ userId, showPollution = true, showSolutions = true, show
           </button>
         </div>
         
-        <div className="map-legend">
-          <h4>Map Legend</h4>
-          <div className="legend-item">
-            <span className="dot red"></span> Pollution Sources
-          </div>
-          <div className="legend-item">
-            <span className="dot green"></span> Community Solutions
-          </div>
-          <div className="legend-item">
-            <span className="dot orange"></span> Heat Zones
-          </div>
-        </div>
-      </div>
+     
 
       <div className="map-viewport">
         <iframe
