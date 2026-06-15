@@ -61,7 +61,6 @@ const Header = ({ userId }) => {
       title: 'Explore',
       icon: '🗺️',
       items: [
-        { path: '/map', label: 'The Map', description: 'Interactive EJ map' },
         { path: '/voices', label: 'Community Voices', description: 'Stories from neighbors' },
         { path: '/solutions', label: 'Solutions', description: 'Grassroots action' }
       ]
