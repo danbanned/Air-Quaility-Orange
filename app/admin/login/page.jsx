@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import styles from '@/components/admin/Admin.module.css';
+import styles from '../../../components/admin/Admin.module.css';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');

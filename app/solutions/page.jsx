@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import AdminCard from '@/components/AdminCard';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/styles/Solutions.module.css';
+import AdminCard from '../../components/AdminCard';
+import { useAuth } from '../../components/AuthContext';
+import styles from '../../styles/Solutions.module.css';
 
 const emptySolution = {
   title: '',

@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
-import { AuthProvider } from '@/components/AuthContext';
+import { AuthProvider } from '../components/AuthContext';
 
 export default function Providers({ children }) {
   const pathname = usePathname();

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { geocodeAddress } from '@/lib/services/geocoding';
+import { geocodeAddress } from '../../../lib/services/geocoding';
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);

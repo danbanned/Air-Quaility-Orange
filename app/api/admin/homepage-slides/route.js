@@ -1,11 +1,11 @@
-import { requireTrueAdmin } from '@/lib/api';
+import { requireTrueAdmin } from '../../../../lib/api';
 import { NextResponse } from 'next/server';
 import {
   createHeroSlide,
   deleteHeroSlide,
   listHeroSlides,
   validateHeroSlidePayload,
-} from '@/lib/hero-slide-service';
+} from '../../../../lib/hero-slide-service';
 
 export async function GET() {
   const { error } = await requireTrueAdmin();

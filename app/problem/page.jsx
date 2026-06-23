@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import styles from '@/styles/Problem.module.css';
+import styles from '../../styles/Problem.module.css';
 
 const Problem = () => {
   const problems = [

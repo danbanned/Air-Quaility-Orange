@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { requireTrueAdmin } from '@/lib/api';
+import { requireTrueAdmin } from '../../../../../lib/api';
 import {
   createNotification,
   EVENT_REQUEST_STATUS,
   logActivity,
-} from '@/lib/admin-system';
-import { validateEventRequestDecisionPayload } from '@/lib/content-service';
-import { prisma } from '@/lib/prisma';
+} from '../../../../../lib/admin-system';
+import { validateEventRequestDecisionPayload } from '../../../../../lib/content-service';
+import { prisma } from '../../../../../lib/prisma';
 
 export async function PUT(request, { params }) {
   const { id } = await params;

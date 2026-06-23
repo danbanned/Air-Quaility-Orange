@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { requireTrueAdmin } from '@/lib/api';
-import { getHomePageContent, logActivity, upsertHomePageContent } from '@/lib/admin-system';
+import { requireTrueAdmin } from '../../../../lib/api';
+import { getHomePageContent, logActivity, upsertHomePageContent } from '../../../../lib/admin-system';
 
 export async function GET() {
   const { error } = await requireTrueAdmin();

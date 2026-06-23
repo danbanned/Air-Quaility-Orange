@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireAdminAccess } from '@/lib/api';
-import { logActivity } from '@/lib/admin-system';
-import { updateStory, validateStoryPayload } from '@/lib/story-service';
+import { requireAdminAccess } from '../../../../../lib/api';
+import { logActivity } from '../../../../../lib/admin-system';
+import { updateStory, validateStoryPayload } from '../../../../../lib/story-service';
 
 export async function PUT(request, { params }) {
   const { id } = await params;

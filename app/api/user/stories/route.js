@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { requireAuthenticated } from '@/lib/api';
+import { requireAuthenticated } from '../../../../lib/api';
 import {
   createNotification,
   logActivity,
   notifyRoles,
   shouldAutoApproveStory,
-} from '@/lib/admin-system';
-import { createStorySubmission, validateStoryPayload } from '@/lib/story-service';
+} from '../../../../lib/admin-system';
+import { createStorySubmission, validateStoryPayload } from '../../../../lib/story-service';
 
 export async function POST(request) {
   const { session, error } = await requireAuthenticated();

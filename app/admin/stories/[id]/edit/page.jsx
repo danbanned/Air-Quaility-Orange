@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import StoryForm, { getEmptyStory } from '@/components/admin/StoryForm';
-import styles from '@/components/admin/Admin.module.css';
+import StoryForm, { getEmptyStory } from '../../../../../components/admin/StoryForm';
+import styles from '../../../../../components/admin/Admin.module.css';
 
 export default function EditStoryPage() {
   const params = useParams();

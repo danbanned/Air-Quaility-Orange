@@ -1,0 +1,56 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "ST_NAME": "Roosevelt Blvd Extension"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15565, 40.01900],
+          [-75.15540, 40.01900],
+          [-75.15540, 40.02120],
+          [-75.15565, 40.02120],
+          [-75.15565, 40.01900]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 2,
+        "ST_NAME": "Wayne Ave near Wayne Junction"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.16200, 40.02260],
+          [-75.15800, 40.02260],
+          [-75.15800, 40.02285],
+          [-75.16200, 40.02285],
+          [-75.16200, 40.02260]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 3,
+        "ST_NAME": "Nicetown corridor cross street"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15800, 40.01850],
+          [-75.15400, 40.01850],
+          [-75.15400, 40.01872],
+          [-75.15800, 40.01872],
+          [-75.15800, 40.01850]
+        ]]
+      }
+    }
+  ]
+}

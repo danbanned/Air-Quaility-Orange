@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import AdminCard from '@/components/AdminCard';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/styles/Events.module.css';
+import AdminCard from '../../components/AdminCard';
+import { useAuth } from '../../components/AuthContext';
+import styles from '../../styles/Events.module.css';
 
 const emptyRequest = {
   requesterName: '',

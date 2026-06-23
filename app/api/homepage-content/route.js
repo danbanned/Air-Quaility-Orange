@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getHomePageContent } from '@/lib/admin-system';
+import { getHomePageContent } from '../../../lib/admin-system';
 
 export const dynamic = 'force-dynamic';
 

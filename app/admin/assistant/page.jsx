@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/components/admin/Admin.module.css';
+import { useAuth } from '../../../components/AuthContext';
+import styles from '../../../components/admin/Admin.module.css';
 
 export default function AssistantDashboardPage() {
   const { session, status, role } = useAuth();

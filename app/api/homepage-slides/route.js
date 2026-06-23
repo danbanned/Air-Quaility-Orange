@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listHeroSlides } from '@/lib/hero-slide-service';
+import { listHeroSlides } from '../../../lib/hero-slide-service';
 
 export const dynamic = 'force-dynamic';
 

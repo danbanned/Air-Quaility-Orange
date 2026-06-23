@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import styles from '@/styles/Ebony.module.css';
+import styles from '../../styles/Ebony.module.css';
 
 const Ebony = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);

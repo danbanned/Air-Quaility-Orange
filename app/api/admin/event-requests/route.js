@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { requireTrueAdmin } from '@/lib/api';
-import { listEventRequests } from '@/lib/content-service';
+import { requireTrueAdmin } from '../../../../lib/api';
+import { listEventRequests } from '../../../../lib/content-service';
 
 export async function GET() {
   const { error } = await requireTrueAdmin();

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireTrueAdmin } from '@/lib/api';
-import { createNotification, logActivity } from '@/lib/admin-system';
-import { prisma } from '@/lib/prisma';
+import { requireTrueAdmin } from '../../../../../../lib/api';
+import { createNotification, logActivity } from '../../../../../../lib/admin-system';
+import { prisma } from '../../../../../../lib/prisma';
 
 export async function POST(_request, { params }) {
   const { id } = await params;

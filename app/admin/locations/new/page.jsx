@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/AuthContext';
-import { useGeocode } from '@/lib/hooks/useGeocode';
-import { useLocations } from '@/lib/hooks/useLocations';
-import styles from '@/components/admin/Admin.module.css';
+import { useAuth } from '../../../../components/AuthContext';
+import { useGeocode } from '../../../../lib/hooks/useGeocode';
+import { useLocations } from '../../../../lib/hooks/useLocations';
+import styles from '../../../../components/admin/Admin.module.css';
 
 export default function NewLocationPage() {
   const { status, role } = useAuth();

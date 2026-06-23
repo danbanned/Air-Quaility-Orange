@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listEvents } from '@/lib/content-service';
+import { listEvents } from '../../../lib/content-service';
 
 export const dynamic = 'force-dynamic';
 

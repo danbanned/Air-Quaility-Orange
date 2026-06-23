@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getJsonBody, requireAdminAccess } from '@/lib/api';
-import { prisma } from '@/lib/prisma';
+import { getJsonBody, requireAdminAccess } from '../../../../lib/api';
+import { prisma } from '../../../../lib/prisma';
 
 export async function GET(_request, { params }) {
   const location = await prisma.location.findUnique({ where: { id: params.id } });

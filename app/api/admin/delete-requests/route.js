@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { requireAdminAccess } from '@/lib/api';
-import { prisma } from '@/lib/prisma';
+import { requireAdminAccess } from '../../../../lib/api';
+import { prisma } from '../../../../lib/prisma';
 
 export async function GET() {
   const { session, error } = await requireAdminAccess();

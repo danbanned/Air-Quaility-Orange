@@ -10,7 +10,7 @@
     "start": "next start",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "node prisma/seed.js"
+    "prisma:seed": "node --use-system-ca prisma/seed.js"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
@@ -22,7 +22,7 @@
     "cesium": "^1.140.0",
     "chart.js": "latest",
     "next": "latest",
-    "next-auth": "^4.24.14",
+    "next-auth": "^5.0.0-beta.31",
     "prisma": "^7.8.0",
     "react": "latest",
     "react-chartjs-2": "latest",

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireAdminAccess } from '@/lib/api';
-import { archiveStory, getStoryById } from '@/lib/story-service';
-import { logActivity } from '@/lib/admin-system';
+import { requireAdminAccess } from '../../../../../../lib/api';
+import { archiveStory, getStoryById } from '../../../../../../lib/story-service';
+import { logActivity } from '../../../../../../lib/admin-system';
 
 export async function POST(_request, { params }) {
   const { id } = await params;

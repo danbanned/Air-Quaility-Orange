@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 const CesiumMap = dynamic(() => import('@/components/CesiumMap.jsx'), {
   ssr: false,

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import AdminCard from '@/components/AdminCard';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/styles/GetInvolved.module.css';
+import AdminCard from '../../components/AdminCard';
+import { useAuth } from '../../components/AuthContext';
+import styles from '../../styles/GetInvolved.module.css';
 
 const emptyInterest = {
   name: '',

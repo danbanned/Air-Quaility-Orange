@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { requireAuthenticated } from '@/lib/api';
-import { prisma } from '@/lib/prisma';
+import { requireAuthenticated } from '../../../../lib/api';
+import { prisma } from '../../../../lib/prisma';
 
 export async function GET() {
   const { session, error } = await requireAuthenticated();

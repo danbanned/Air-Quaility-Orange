@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { requireAuthenticated } from '@/lib/api';
-import { createNotification, logActivity, notifyRoles } from '@/lib/admin-system';
-import { validateEventRequestPayload } from '@/lib/content-service';
-import { prisma } from '@/lib/prisma';
+import { requireAuthenticated } from '../../../../lib/api';
+import { createNotification, logActivity, notifyRoles } from '../../../../lib/admin-system';
+import { validateEventRequestPayload } from '../../../../lib/content-service';
+import { prisma } from '../../../../lib/prisma';
 
 export async function POST(request) {
   const { session, error } = await requireAuthenticated();

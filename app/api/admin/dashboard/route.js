@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireAdminAccess } from '@/lib/api';
-import { DELETE_REQUEST_STATUS, EVENT_REQUEST_STATUS, STORY_STATUS } from '@/lib/admin-system';
-import { prisma } from '@/lib/prisma';
+import { requireAdminAccess } from '../../../../lib/api';
+import { DELETE_REQUEST_STATUS, EVENT_REQUEST_STATUS, STORY_STATUS } from '../../../../lib/admin-system';
+import { prisma } from '../../../../lib/prisma';
 
 export async function GET() {
   const { session, error } = await requireAdminAccess();

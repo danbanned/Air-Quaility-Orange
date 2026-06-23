@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getPlaceDetailsByName } from '@/lib/services/places';
+import { getPlaceDetailsByName } from '../../../lib/services/places';
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);

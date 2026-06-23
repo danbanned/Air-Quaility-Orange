@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/components/admin/Admin.module.css';
+import { useAuth } from '../../../components/AuthContext';
+import styles from '../../../components/admin/Admin.module.css';
 
 const tabs = ['overview', 'stories', 'events', 'opportunities', 'deletions', 'activity'];
 

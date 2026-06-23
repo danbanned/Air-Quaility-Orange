@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import StoryCard from '@/components/Stories/StoryCard';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/styles/Voices.module.css';
+import StoryCard from '../../components/Stories/StoryCard';
+import { useAuth } from '../../components/AuthContext';
+import styles from '../../styles/Voices.module.css';
 
 const emptyStory = {
   title: '',
@@ -14,6 +14,9 @@ const emptyStory = {
   audioUrl: '',
   imageUrl: '',
   category: 'organizing',
+  streetName: '',
+  lat: null,
+  lng: null,
 };
 
 export default function VoicesClient() {
@@ -25,6 +28,7 @@ export default function VoicesClient() {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [streets, setStreets] = useState([]);
 
   async function loadStories() {
     setLoading(true);
@@ -46,6 +50,10 @@ export default function VoicesClient() {
 
   useEffect(() => {
     loadStories();
+    fetch('/api/streets')
+      .then((r) => r.json())
+      .then((data) => setStreets(Array.isArray(data) ? data : []))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -97,7 +105,17 @@ export default function VoicesClient() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setForm((current) => ({ ...current, [name]: value }));
+    if (name === 'streetName') {
+      const street = streets.find((s) => s.name === value);
+      setForm((current) => ({
+        ...current,
+        streetName: value,
+        lat: street?.center?.lat ?? null,
+        lng: street?.center?.lng ?? null,
+      }));
+    } else {
+      setForm((current) => ({ ...current, [name]: value }));
+    }
   }
 
   return (
@@ -193,6 +211,14 @@ export default function VoicesClient() {
                 <option value="health">health</option>
                 <option value="action">action</option>
               </select>
+              {streets.length > 0 && (
+                <select name="streetName" value={form.streetName} onChange={handleChange}>
+                  <option value="">Where did this happen? (optional)</option>
+                  {streets.map((s) => (
+                    <option key={s.name} value={s.name}>{s.name}</option>
+                  ))}
+                </select>
+              )}
               <button type="submit" className="btn">Submit Story</button>
             </form>
           </>

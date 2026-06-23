@@ -1,15 +1,14 @@
 import Link from 'next/link';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { getActiveLayout } from '@/lib/layout-manager';
-import { getHomePageContent } from '@/lib/admin-system';
-import { listHeroSlides } from '@/lib/hero-slide-service';
-import { prisma } from '@/lib/prisma';
+import { auth } from '../auth';
+import { getActiveLayout } from '../lib/layout-manager';
+import { getHomePageContent } from '../lib/admin-system';
+import { listHeroSlides } from '../lib/hero-slide-service';
+import { prisma } from '../lib/prisma';
 
-import LayoutDefault from '@/components/homepageLayouts/LayoutDefault';
-import LayoutCompact from '@/components/homepageLayouts/LayoutCompact';
-import LayoutStoryFocused from '@/components/homepageLayouts/LayoutStoryFocused';
-import LayoutDataHeavy from '@/components/homepageLayouts/LayoutDataHeavy';
+import LayoutDefault from '../components/homepageLayouts/LayoutDefault';
+import LayoutCompact from '../components/homepageLayouts/LayoutCompact';
+import LayoutStoryFocused from '../components/homepageLayouts/LayoutStoryFocused';
+import LayoutDataHeavy from '../components/homepageLayouts/LayoutDataHeavy';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +21,7 @@ const layoutMap = {
 
 export default async function HomePage() {
   const [session, homeContent, slides, activeLayoutId] = await Promise.all([
-    getServerSession(authOptions),
+    auth(),
     getHomePageContent(),
     listHeroSlides(false),
     getActiveLayout(),

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { requireAdminAccess } from '@/lib/api';
-import { logActivity } from '@/lib/admin-system';
-import { validateSolutionPayload } from '@/lib/content-service';
-import { prisma } from '@/lib/prisma';
+import { requireAdminAccess } from '../../../../../lib/api';
+import { logActivity } from '../../../../../lib/admin-system';
+import { validateSolutionPayload } from '../../../../../lib/content-service';
+import { prisma } from '../../../../../lib/prisma';
 
 export async function PUT(request, { params }) {
   const { id } = await params;

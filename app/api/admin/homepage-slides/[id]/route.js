@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { requireTrueAdmin } from '@/lib/api';
-import { prisma } from '@/lib/prisma';
-import { validateHeroSlidePayload } from '@/lib/hero-slide-service';
+import { requireTrueAdmin } from '../../../../../lib/api';
+import { prisma } from '../../../../../lib/prisma';
+import { validateHeroSlidePayload } from '../../../../../lib/hero-slide-service';
 
 export async function PUT(request, { params }) {
   const { id } = await params;

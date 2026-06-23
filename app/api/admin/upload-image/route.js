@@ -1,9 +1,9 @@
 import path from 'path';
 import { mkdir, writeFile } from 'fs/promises';
 import { NextResponse } from 'next/server';
-import { requireAdminAccess } from '@/lib/api';
-import { logActivity } from '@/lib/admin-system';
-import { prisma } from '@/lib/prisma';
+import { requireAdminAccess } from '../../../../lib/api';
+import { logActivity } from '../../../../lib/admin-system';
+import { prisma } from '../../../../lib/prisma';
 
 const modelMap = {
   event: prisma.event,

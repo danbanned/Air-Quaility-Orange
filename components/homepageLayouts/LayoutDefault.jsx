@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import HeroCarousel from '@/components/home/HeroCarousel';
-import EditableSection from '@/components/editable/EditableSection';
-import InlineEdit from '@/components/InlineEdit';
-import styles from '@/app/page.module.css';
+import HeroCarousel from '../../components/home/HeroCarousel';
+import EditableSection from '../../components/editable/EditableSection';
+import InlineEdit from '../../components/InlineEdit';
+import styles from '../../app/page.module.css';
 
 export default function LayoutDefault({ slides: initialSlides, homeContent, stories, isStaff }) {
   const [slides, setSlides] = useState(initialSlides);

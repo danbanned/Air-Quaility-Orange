@@ -1,0 +1,100 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "gridcode": 1,
+        "DN": 1,
+        "label": "Hunting Park tree canopy"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.14500, 40.01820],
+          [-75.14350, 40.01820],
+          [-75.14350, 40.01920],
+          [-75.14500, 40.01920],
+          [-75.14500, 40.01820]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 2,
+        "gridcode": 2,
+        "DN": 2,
+        "label": "Furtick Farms grass area"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15700, 40.01870],
+          [-75.15650, 40.01870],
+          [-75.15650, 40.01910],
+          [-75.15700, 40.01910],
+          [-75.15700, 40.01870]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 3,
+        "gridcode": 1,
+        "DN": 1,
+        "label": "Diamond Street planting site"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15710, 40.01860],
+          [-75.15670, 40.01860],
+          [-75.15670, 40.01895],
+          [-75.15710, 40.01895],
+          [-75.15710, 40.01860]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 4,
+        "gridcode": 1,
+        "DN": 1,
+        "label": "Nicetown Park tree canopy"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15800, 40.01850],
+          [-75.15350, 40.01850],
+          [-75.15350, 40.02150],
+          [-75.15800, 40.02150],
+          [-75.15800, 40.01850]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 5,
+        "gridcode": 2,
+        "DN": 2,
+        "label": "Hunting Park grass/shrub"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.14600, 40.01750],
+          [-75.14300, 40.01750],
+          [-75.14300, 40.01850],
+          [-75.14600, 40.01850],
+          [-75.14600, 40.01750]
+        ]]
+      }
+    }
+  ]
+}

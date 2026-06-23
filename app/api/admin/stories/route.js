@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminAccess, requireAuthenticated, requireTrueAdmin } from '@/lib/api';
+import { requireAdminAccess, requireAuthenticated, requireTrueAdmin } from '../../../../lib/api';
 import {
   canDirectDelete,
   createNotification,
@@ -7,15 +7,15 @@ import {
   logActivity,
   notifyRoles,
   shouldAutoApproveStory,
-} from '@/lib/admin-system';
-import { ROLE } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+} from '../../../../lib/admin-system';
+import { ROLE } from '../../../../lib/auth';
+import { prisma } from '../../../../lib/prisma';
 import {
   createStorySubmission,
   deleteStory,
   listStories,
   validateStoryPayload,
-} from '@/lib/story-service';
+} from '../../../../lib/story-service';
 
 export async function GET() {
   const { error } = await requireAdminAccess();

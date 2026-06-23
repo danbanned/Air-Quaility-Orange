@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/AuthContext';
-import styles from '@/components/admin/Admin.module.css';
+import { useAuth } from '../../../components/AuthContext';
+import styles from '../../../components/admin/Admin.module.css';
 
 export default function HomepageEditor() {
   const { status, role } = useAuth();

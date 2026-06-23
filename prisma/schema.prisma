@@ -39,6 +39,12 @@ model Story {
   adminNotes     String?
   submittedById  String?
   submittedBy    User?         @relation("SubmittedStories", fields: [submittedById], references: [id])
+  streetName     String?
+  lat            Float?
+  lng            Float?
+  height         Float?
+  characterColor String?
+  modelUri       String?
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   storyRequests  StoryRequest[]

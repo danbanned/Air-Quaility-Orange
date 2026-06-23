@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listOpportunities } from '@/lib/content-service';
+import { listOpportunities } from '../../../lib/content-service';
 
 export const dynamic = 'force-dynamic';
 

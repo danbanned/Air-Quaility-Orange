@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import styles from '@/styles/Data.module.css';
+import styles from '../../styles/Data.module.css';
 
 const DataDashboard = dynamic(
   () => import('@/components/Dashboard/DataDashboard'),

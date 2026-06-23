@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import EditableSection from '@/components/editable/EditableSection';
-import InlineEdit from '@/components/InlineEdit';
+import EditableSection from '../../components/editable/EditableSection';
+import InlineEdit from '../../components/InlineEdit';
 
 export default function LayoutCompact({ slides, homeContent, stories, isStaff }) {
   const hero = slides?.[0] || {};

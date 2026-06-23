@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
-import { requireAuthenticated, requireAdminAccess } from '@/lib/api';
+import { requireAuthenticated, requireAdminAccess } from '../../../../lib/api';
 import {
   canDirectDelete,
   DELETE_REQUEST_STATUS,
   logActivity,
   notifyRoles,
-} from '@/lib/admin-system';
-import { validateSolutionPayload } from '@/lib/content-service';
-import { prisma } from '@/lib/prisma';
+} from '../../../../lib/admin-system';
+import { validateSolutionPayload } from '../../../../lib/content-service';
+import { prisma } from '../../../../lib/prisma';
 
 export async function GET() {
   const { error } = await requireAdminAccess();

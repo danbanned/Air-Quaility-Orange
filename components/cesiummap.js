@@ -286,6 +286,7 @@ const CesiumMap = ({
     let currentIndex = 0;
     let cancelled = false;
     let pendingTimeout = null;
+    let currentOrbitRemoveTick = null;
 
     //=============================================================
     // This function manages the cinematic tour by flying the camera to a series of predefined waypoints with specific camera angles, durations, and wait times between each point. It uses Cesium's flyToBoundingSphere for smooth transitions and includes error handling to fall back to a direct flyTo if the bounding sphere flight fails. The tour can be cancelled at any time, which will stop any ongoing flights and prevent further navigation through the waypoints.
@@ -299,91 +300,83 @@ const CesiumMap = ({
         }
         return;
       }
-      //this block allows for users to go into free mode
-      //cancceled is a variable with a boolean value that 
-      //tracks whether the tour has been cancelled by the user,
-      //we use a OR operator to check if either the cancelled or currentindex value is true and whichever one is true will decide what happens 
-      //if currentindex is greater than or equal to the length of our list tourwaypoints
-      //thren we set the camera mode back to free and set the tour debug message to tour 
-      // complete, this means we have reached the end of our tour and we want to allow the user 
-      // to take manual control of the camera again,
 
       const point = tourWaypoints[currentIndex];
-      //sets one specific point out of the list of the toiurwaypoints list to be the current point we are flying too
-      //is this controlled or random?
       setActiveSceneLabel(point.name);
-      //every tourwaypoint has a name property which is a string, we use that name and call a method setActiveSceneLabel 
-      // which updates the state of activeSceneLabel to be the name of the current point we are flying too, 
-      // this allows us to display the name of the location we are currently focused on in the UI, such as in a label or header, to provide context to the user about what they are looking at during the tour
       setTourDebug(`flying to ${currentIndex + 1}/${tourWaypoints.length}: ${point.name}`);
-      //this is what shows us whats happening whiule our camera is moving it shows us fromdegerees conversion, the herchy of camer movement 
-      //and entiies being targeted, this is really useful for debugging and understanding the flow of the tour, it updates the tourDebug state
-      // with a message that includes the current waypoint index, total waypoints, and the name of the location we are flying to, this can be 
-      // displayed in the UI to give users real-time feedback on the tour's progress and which location is currently being focused on.
 
       const target = Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.targetHeight || 0);
-      //cesium.cartesian3 is a cesium class that reperesentse a 3d point or vector
-      // in space it represents x,y and z coordintes, we use from degrees to convert each 
-      //waypoints longitude and latitude from degrees to cartesion coordinates  that
-      //cesium can use for the camera position and movement. basically converting the original coordinats that aare in degrees 
-      //to cesium readable coordinates through cesium class -> cartesian3 -> with the fromdegrees method which takes properites of longitude, 
-      // latitude and height to create a 3d point in space that the camera can fly to
       const offset = new Cesium.HeadingPitchRange(
-        //headingpchrange is how our camera is forced to look a specific way
-        // heading is the direction we face the camera in its like turning your head right or left
-        // pitch is like how much your looking up or down
-        // range is how far you ar away from the target
-        //this is our offset for our camer when we fly to each point it ensures
-        //we have a good angle and distance to view the location we are flying too.
-
         Cesium.Math.toRadians(point.heading || 0),
-        //we convert the degrees for heading to radians using the math.pi javascript function conversion formula using cesiums
-        //custom math fucntion,
-
         Cesium.Math.toRadians(point.pitch || -30),
-        //we convert the degrees for pitch to radians using the math.pi javascript function conversion formula using cesiums
-        //custom math fucntion, we also set a default value of -30 degrees if no pitch is provided in the waypoint data to ensure
-        //  the camera is angled downwards for a better view of the location
         point.range || initialHeight
       );
+
+      // Register the orbit listener BEFORE starting the flight, matching how
+      // startOrbit works. A flightDone flag keeps it idle until the flight lands.
+      let flightDone = false;
+      let orbitAngle = 0;
+      const orbitCenter = Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.targetHeight || 0);
+
+      const removeTick = viewer.scene.postRender.addEventListener(() => {
+        if (cancelled || viewer.isDestroyed()) {
+          removeTick();
+          currentOrbitRemoveTick = null;
+          return;
+        }
+        if (!flightDone) return;
+          orbitAngle += 0.0035; // ~12°/s — visible
+        viewer.camera.lookAt(
+          orbitCenter,
+          new Cesium.HeadingPitchRange(
+            orbitAngle,
+            Cesium.Math.toRadians(point.pitch || -24),
+            point.range || 260
+          )
+        );
+      });
+      currentOrbitRemoveTick = removeTick;
 
       const completeFlight = () => {
         currentIndex += 1;
         if (currentIndex >= tourWaypoints.length) {
+          removeTick();
+          currentOrbitRemoveTick = null;
           setCameraMode('free');
           setTourDebug('tour complete');
           return;
         }
-        setTourDebug(`arrived at ${point.name}; waiting ${point.wait || 1000}ms`);
-        pendingTimeout = window.setTimeout(flyToNextPoint, point.wait || 1000);
-      };
-      //we come back to this function after each flight completes, 
-      // it increments the currentIndex to move to the next waypoint, 
-      // checks if we have reached the end of the tour and if so sets 
-      // camera mode back to free and updates the debug message,
-      // if not it sets a timeout to call flyToNextPoint again after 
-      // a wait time specified in the waypoint data (or a default of 1000ms) 
-      // to create a pause between flights for better pacing of the tour.
 
+        // give the orbit its own dwell time, separate from how fast you advance
+        const orbitSeconds = point.orbitSeconds ?? 4;
+
+
+        // Capture the heading the camera landed at so the orbit starts
+        // from the same angle — no jarring snap.
+        orbitAngle = viewer.camera.heading;
+        flightDone = true;
+        setTourDebug(`orbiting ${point.name}`);
+
+        pendingTimeout = window.setTimeout(() => {
+          if (cancelled) return;
+          flightDone = false;
+          if (currentOrbitRemoveTick) {
+            currentOrbitRemoveTick();
+            currentOrbitRemoveTick = null;
+          }
+          viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+          flyToNextPoint();
+        }, orbitSeconds * 1000);
+      };
 
       try {
         viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
-        //this resets the camera back to defualt view before each flight to ensure consistant
-        //behavor Matrix4 is a 4x4 grid of numbers that represent a 3d transformation-position, rotation and scale,
-        // all in one mathmatical package cesium uses this for complex camera movements and by resetting it to IDENTITY we make sure 
-        // each flight starts from a known state and prevents any compounding transformations 
-        //think of matrix like what allows us to control the player head.
-        console.log('before', viewer.camera.positionWC);
-         viewer.camera.flyToBoundingSphere(new Cesium.BoundingSphere(target, 30), {
-            offset,
-            duration: point.duration || 3,
-            easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
-            complete: () => {
-            console.log('after', viewer.camera.positionWC);
-            completeFlight();
-            }
+        viewer.camera.flyToBoundingSphere(new Cesium.BoundingSphere(target, 30), {
+          offset,
+          duration: point.duration || 3,
+          easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
+          complete: completeFlight
         });
-
       } catch (flightError) {
         console.error('Cinematic tour flight failed, falling back to direct flyTo.', flightError);
         setTourDebug(`bounding-sphere flight failed at ${point.name}; using fallback`);
@@ -408,6 +401,13 @@ const CesiumMap = ({
       setTourDebug('tour cancelled during cleanup');
       if (pendingTimeout) {
         window.clearTimeout(pendingTimeout);
+      }
+      if (currentOrbitRemoveTick) {
+        currentOrbitRemoveTick();
+        currentOrbitRemoveTick = null;
+      }
+      if (viewerRef.current && !viewerRef.current.isDestroyed()) {
+        viewerRef.current.camera.lookAtTransform(cesiumRef.current.Matrix4.IDENTITY);
       }
     });
   };

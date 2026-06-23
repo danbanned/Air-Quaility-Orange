@@ -278,6 +278,42 @@ body {
   line-height: 1.4;
 }
 
+/* Perspective toggle — headline control above the tour buttons */
+.aqo-perspective-toggle {
+  background: rgba(45, 106, 79, 0.28);
+  border: 1px solid rgba(74, 196, 124, 0.45);
+  color: #7ef0a0;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.aqo-perspective-toggle:hover {
+  background: rgba(45, 106, 79, 0.46);
+  transform: translateX(-2px);
+}
+
+.aqo-perspective-toggle-active {
+  background: rgba(45, 106, 79, 0.52);
+  border-color: rgba(74, 196, 124, 0.75);
+  color: #b7f5c8;
+}
+
+.aqo-perspective-caption {
+  margin: 0;
+  padding: 0 2px;
+  color: rgba(183, 245, 200, 0.72);
+  font-size: 0.65rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.aqo-tour-divider {
+  height: 1px;
+  background: rgba(226, 212, 176, 0.12);
+  margin: 2px 0;
+}
+
 .aqo-tour-stat-popover {
   position: fixed;
   bottom: 2rem;

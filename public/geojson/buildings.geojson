@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "ADDRESS": "Furtick Farms area, Nicetown",
+        "BLDG_HT": 9
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15700, 40.01880],
+          [-75.15665, 40.01880],
+          [-75.15665, 40.01905],
+          [-75.15700, 40.01905],
+          [-75.15700, 40.01880]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 2,
+        "ADDRESS": "Near Nicetown Park",
+        "BLDG_HT": 12
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15750, 40.01960],
+          [-75.15710, 40.01960],
+          [-75.15710, 40.01990],
+          [-75.15750, 40.01990],
+          [-75.15750, 40.01960]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 3,
+        "ADDRESS": "Wayne Junction area",
+        "BLDG_HT": 15
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.16000, 40.02260],
+          [-75.15960, 40.02260],
+          [-75.15960, 40.02290],
+          [-75.16000, 40.02290],
+          [-75.16000, 40.02260]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 4,
+        "ADDRESS": "Near Roosevelt Extension",
+        "BLDG_HT": 8
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-75.15580, 40.02040],
+          [-75.15540, 40.02040],
+          [-75.15540, 40.02070],
+          [-75.15580, 40.02070],
+          [-75.15580, 40.02040]
+        ]]
+      }
+    }
+  ]
+}
