@@ -807,7 +807,7 @@ export async function createStreetTrailTour({
   // ── CONFIGURATION ──────────────────────────────────────────────────────────
   const CONFIG = {
     cameraRange: 10,          // meters from target to camera
-    cameraPitch: 15,          // degrees above horizontal
+    cameraPitch: 0,           // degrees above horizontal (0 = straight forward)
     heightAboveGround: 5,     // meters above the LIVE terrain height each tick
     secondsPerSegment: 14,
     orbitDuration: 6,
